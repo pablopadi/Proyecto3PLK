@@ -25,7 +25,7 @@ public class PanelOpciones extends JFrame {
 	public JToggleButton musica;
 
 	public PanelOpciones() {
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setSize(500, 300);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false); 
