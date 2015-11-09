@@ -2,9 +2,13 @@ package Paq.Paneles;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -16,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+
 import Paq.Hilos.HiloJuego;
 
 public class Menu extends JFrame {
@@ -33,10 +38,15 @@ public class Menu extends JFrame {
 
 	public Menu() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(900, 600);
 		this.setLayout(new BorderLayout());
 		//No se podra cambiar el tamaño de la ventana
 		this.setResizable(false); 
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice[] gs = ge.getScreenDevices();
+		Dimension d = gs[0].getDefaultConfiguration().getBounds().getSize();
+		int x = (int) d.getWidth()/2;
+		int y = (int) d.getHeight()/2;
+		this.setBounds(x -(x + 150)/2 , y - (y + 150)/2 , (1920 + 200) /2, (1080 + 400)/2);
 
 		fondo = this.getClass().getResource("boxhead-zombie-wars.png");
 		ImagenFondo = new ImageIcon(fondo).getImage();
@@ -81,7 +91,7 @@ public class Menu extends JFrame {
 		panelJugador.add(etiquetaNombre );
 		panelJugador.add(nombreJugador );
 		panelPrincipal.add(play);
-		play.setLocation((this.getWidth()/2)-(play.getWidth()/2),(this.getHeight()/2)+100);
+		play.setLocation((this.getWidth()/2 - 10)-(play.getWidth()/2),(this.getHeight()/2)+200);
 		
 		botonControles.addActionListener(new ActionListener() {
 
