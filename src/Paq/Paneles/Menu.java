@@ -40,7 +40,7 @@ public class Menu extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
 		//No se podra cambiar el tamaño de la ventana
-		
+		//TODO revisar codigo para otro tipo de pantallas
 		this.setResizable(false); 
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] gs = ge.getScreenDevices();
