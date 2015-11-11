@@ -52,7 +52,9 @@ public class Escenario extends JFrame{
 		etiquetapuntuacion = new JLabel("Puntuacion: ");
 		etiquetapuntuacion.setForeground(Color.RED);
 		puntuacion = new JTextField("000000");
+		puntuacion.setEditable(false);
 		etiquetaNombre = a.etiquetaNombre;
+		etiquetaNombre.setForeground(Color.RED);
 		nombreJugador = a.nombreJugador;
 		nombreJugador.setEditable(false);
 		puntuacion.setColumns(20);
