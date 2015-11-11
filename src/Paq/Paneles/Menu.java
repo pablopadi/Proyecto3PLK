@@ -112,6 +112,17 @@ public class Menu extends JFrame {
 				opciones.setVisible(true);
 			}
 		});
+		play.addActionListener( new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				hilo = new HiloJuego();
+				hilo.run();
+				Menu.this.dispose();
+				
+				
+			}
+		});
+		
 	}
 
 	public static void main(String[] args) {

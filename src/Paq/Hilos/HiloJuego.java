@@ -1,7 +1,10 @@
 package Paq.Hilos;
 
-public class HiloJuego extends Thread {
+import Paq.Paneles.Escenario;
+import Paq.Paneles.Menu;
 
+public class HiloJuego extends Thread {
+	Menu a;
 	// Fundamental poner. Variable que dice si el hilo esta activo o no
 	boolean activo = true;
 	// El tiempo que tarda en volver a ejecutarse el run
@@ -9,7 +12,7 @@ public class HiloJuego extends Thread {
 
 	// Constructor del hilo
 	public HiloJuego() {
-
+	
 	}
 
 	public void parar() {
@@ -20,13 +23,15 @@ public class HiloJuego extends Thread {
 	public void run() {
 		while (activo) {
 			try {
+				Escenario escenario = new Escenario();
+				this.parar();
 				// Que espere un segundo antes de ejecutarse
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 			}
 
 			// Lo que quiero que haga el hilo
-
+			
 		}
 	}
 
