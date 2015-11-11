@@ -38,7 +38,7 @@ public class Menu extends JFrame {
 		this.setLayout(new BorderLayout());
 		//No se podra cambiar el tamaño de la ventana
 		this.setResizable(false); 
-
+		
 		//
 		fondo = this.getClass().getResource("boxhead-zombie-wars.png");
 		ImagenFondo = new ImageIcon(fondo).getImage();
