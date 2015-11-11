@@ -11,8 +11,8 @@ public class HiloJuego extends Thread {
 	long tick = 1000;
 
 	// Constructor del hilo
-	public HiloJuego() {
-	
+	public HiloJuego(Menu a) {
+	this.a =a;
 	}
 
 	public void parar() {
@@ -23,7 +23,7 @@ public class HiloJuego extends Thread {
 	public void run() {
 		while (activo) {
 			try {
-				Escenario escenario = new Escenario();
+				Escenario escenario = new Escenario(a);
 				this.parar();
 				// Que espere un segundo antes de ejecutarse
 				Thread.sleep(1000);

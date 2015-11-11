@@ -115,7 +115,7 @@ public class Menu extends JFrame {
 		play.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				hilo = new HiloJuego();
+				hilo = new HiloJuego(Menu.this);
 				hilo.run();
 				Menu.this.dispose();
 				
