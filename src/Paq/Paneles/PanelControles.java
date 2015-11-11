@@ -49,7 +49,7 @@ public class PanelControles extends JFrame {
 	}
 
 	public PanelControles() {
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setSize(400, 500);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
