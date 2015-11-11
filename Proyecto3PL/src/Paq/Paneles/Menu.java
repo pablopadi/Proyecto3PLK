@@ -30,7 +30,7 @@ public class Menu extends JFrame {
 	private Image ImagenFondo;
 	private URL fondo;
 	HiloJuego hilo;
-//
+//aa
 	
 	public Menu() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
