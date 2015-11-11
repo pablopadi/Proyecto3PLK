@@ -1,6 +1,7 @@
 package Paq.Paneles;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -17,7 +18,7 @@ public class PanelControles extends JFrame {
 	JPanel panelControles;
 	public static JLabel controlesmov;
 	public static JLabel contrdisparar;
-
+	public static JLabel contrArmas;
 	// Imagen de controles
 	public class Imagenmov extends javax.swing.JPanel {
 		private String nombreimagen;
@@ -56,7 +57,7 @@ public class PanelControles extends JFrame {
 		// Paneles
 		panelControles = new JPanel() {
 			public void paintComponent(Graphics g) {
-				URL fondoBoton = this.getClass().getResource("boxhead2.jpg");
+				URL fondoBoton = this.getClass().getResource("9304.jpg");
 				Image ImagenFondoBoton = new ImageIcon(fondoBoton).getImage();
 				g.drawImage(ImagenFondoBoton, 0, 0, getWidth(), getHeight(),
 						this);
@@ -67,20 +68,32 @@ public class PanelControles extends JFrame {
 		// Componentes
 		controlesmov = new JLabel("MOVIMIENTO: ");
 		controlesmov.setSize(80, 10);
+		controlesmov.setForeground(Color.WHITE);
 		contrdisparar= new JLabel("DISPARAR: ");
 		contrdisparar.setSize(80, 10);
+		contrdisparar.setForeground(Color.WHITE);
+		contrArmas= new JLabel("CAMBIAR ARMA: ");
+		contrArmas.setSize(120, 10);
+		contrArmas.setForeground(Color.WHITE);
 
 		Imagenmov Imagencontrolsmov = new Imagenmov("Controls.png");
 		Imagenmov Imagencontroldisp = new Imagenmov("controlesclic.png");
+		Imagencontroldisp.setSize(70, 70);
+		Imagenmov ImagencontrolArma = new Imagenmov("tecla-r.png");
+		ImagencontrolArma.setSize(50, 50);
 		// Añadir componentes
 		panelControles.add(controlesmov);
 		panelControles.add(Imagencontrolsmov);
 		panelControles.add(contrdisparar);
 		panelControles.add(Imagencontroldisp);
+		panelControles.add(contrArmas);
+		panelControles.add(ImagencontrolArma);
 		//Posicion
 		controlesmov.setLocation((this.getWidth()/2)-(controlesmov.getWidth()/2)-30,(this.getHeight()/2)-150);
 		Imagencontrolsmov.setLocation((this.getWidth()/2)-(Imagencontrolsmov.getWidth()/2)+80,(this.getHeight()/2)-200);
 		contrdisparar.setLocation((this.getWidth()/2)-(contrdisparar.getWidth()/2)-30,(this.getHeight()/2)-50);
 		Imagencontroldisp.setLocation((this.getWidth()/2)-(Imagencontroldisp.getWidth()/2)+80,(this.getHeight()/2)-50);
+		contrArmas.setLocation((this.getWidth()/2)-(contrArmas.getWidth()/2)-30,(this.getHeight()/2)+50);
+		ImagencontrolArma.setLocation((this.getWidth()/2)-(ImagencontrolArma.getWidth()/2)+80,(this.getHeight()/2)+50);
 	}
 }
