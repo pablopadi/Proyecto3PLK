@@ -39,16 +39,17 @@ public class Menu extends JFrame {
 	public Menu() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
-		//No se podra cambiar el tamaño de la ventana
-		//TODO revisar codigo para otro tipo de pantallas
+		//No se podra cambiar el tamaño de la ventana	
 		this.setResizable(false); 
+
+		// Codigo para centrar la ventana 
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] gs = ge.getScreenDevices();
 		Dimension d = gs[0].getDefaultConfiguration().getBounds().getSize();
-		int x = (int) d.getWidth()/2;
-		int y = (int) d.getHeight()/2;
-		this.setBounds(x -(x + 150)/2 , y - (y + 150)/2 , (1920 + 200) /2, (1080 + 400)/2);
-
+		int x = (int) d.getWidth()/4;
+		int y = (int) d.getHeight()/4;
+		this.setBounds(4*x - 3*(x ) - 50 , 4*y - 2*(y + 200) , (1920 + 200) /2, (1080 + 400)/2);
+	
 		fondo = this.getClass().getResource("boxhead-zombie-wars.png");
 		ImagenFondo = new ImageIcon(fondo).getImage();
 		// Creo los paneles

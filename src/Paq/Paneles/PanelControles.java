@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.net.URL;
 
@@ -51,7 +53,18 @@ public class PanelControles extends JFrame {
 
 	public PanelControles() {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(400, 500);
+
+	//Codigo para centrar la ventana
+		
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice[] gs = ge.getScreenDevices();
+		Dimension d = gs[0].getDefaultConfiguration().getBounds().getSize();
+		int x = (int) d.getWidth()/4;
+		int y = (int) d.getHeight()/4;
+		this.setBounds(4*x - 2*(x ) - 50 - x/2 , 4*y - 2*(y + 220) + y/2 , 600, 500);
+	
+		//this.setSize(400, 500);
+		
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
 		// Paneles
@@ -77,6 +90,7 @@ public class PanelControles extends JFrame {
 		contrArmas.setForeground(Color.WHITE);
 
 		Imagenmov Imagencontrolsmov = new Imagenmov("Controls.png");
+		Imagencontrolsmov.setSize(420/3,420/3 );
 		Imagenmov Imagencontroldisp = new Imagenmov("controlesclic.png");
 		Imagencontroldisp.setSize(70, 70);
 		Imagenmov ImagencontrolArma = new Imagenmov("tecla-r.png");
@@ -89,11 +103,11 @@ public class PanelControles extends JFrame {
 		panelControles.add(contrArmas);
 		panelControles.add(ImagencontrolArma);
 		//Posicion
-		controlesmov.setLocation((this.getWidth()/2)-(controlesmov.getWidth()/2)-30,(this.getHeight()/2)-150);
+		controlesmov.setLocation((this.getWidth()/2)-(controlesmov.getWidth()/2)-80,(this.getHeight()/2)-150);
 		Imagencontrolsmov.setLocation((this.getWidth()/2)-(Imagencontrolsmov.getWidth()/2)+80,(this.getHeight()/2)-200);
-		contrdisparar.setLocation((this.getWidth()/2)-(contrdisparar.getWidth()/2)-30,(this.getHeight()/2)-50);
+		contrdisparar.setLocation((this.getWidth()/2)-(contrdisparar.getWidth()/2)-80,(this.getHeight()/2)-50);
 		Imagencontroldisp.setLocation((this.getWidth()/2)-(Imagencontroldisp.getWidth()/2)+80,(this.getHeight()/2)-50);
-		contrArmas.setLocation((this.getWidth()/2)-(contrArmas.getWidth()/2)-30,(this.getHeight()/2)+50);
+		contrArmas.setLocation((this.getWidth()/2)-(contrArmas.getWidth()/2)-60,(this.getHeight()/2)+50);
 		ImagencontrolArma.setLocation((this.getWidth()/2)-(ImagencontrolArma.getWidth()/2)+80,(this.getHeight()/2)+50);
 	}
 }

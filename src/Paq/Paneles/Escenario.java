@@ -2,8 +2,11 @@ package Paq.Paneles;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.net.URL;
 
@@ -29,7 +32,17 @@ public class Escenario extends JFrame{
 		this.setLayout(new BorderLayout());
 		//No se podra cambiar el tamaño de la ventana
 		this.setResizable(false); 
-		this.setSize(1000, 600);
+		
+		//Codigo para centrar la ventana
+		
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice[] gs = ge.getScreenDevices();
+		Dimension d = gs[0].getDefaultConfiguration().getBounds().getSize();
+		int x = (int) d.getWidth()/4;
+		int y = (int) d.getHeight()/4;
+		this.setBounds(4*x - 3*(x ) - 50 , 4*y - 2*(y + 200) , (1920 + 200) /2, (1080 + 400)/2);
+	//tamaño antiguo 1000*600
+		
 		this.setVisible(true);
 		
 		fondo = this.getClass().getResource("ImgEscenario.png");
