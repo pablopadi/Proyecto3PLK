@@ -81,7 +81,7 @@ public class Escenario extends JFrame{
 		panelPuntuacion.add(etiquetaNombre);
 		panelPuntuacion.add(nombreJugador);
 		
-		creaPersonaje(50, 50);
+		creaPersonaje(500, 300);
 	}
 	public void creaPersonaje( int posX, int posY ) {
 		// Crear y añadir el coche a la ventana

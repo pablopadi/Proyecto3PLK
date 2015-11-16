@@ -66,8 +66,7 @@ public class Prota  {
 		miGraficoActual= ImagenPersonajeDOWN;
 		miGraficoActual.setVisible(true);
 		//miGraficoActual.setBounds( 0, 0, TAMANYO_PERSONAJE, TAMANYO_PERSONAJE );
-		posX = 300;
-		posY = 300;
+		
 		
 	}
 	public double getPosX() {
