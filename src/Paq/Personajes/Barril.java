@@ -15,6 +15,7 @@ public class Barril extends Objetos{
 	
 	private boolean explosion() {
 		// terminar metodo explotar cuando tengamos "metodo disparar"
+		//allahu akbar
 		return true;
 		
 	}
