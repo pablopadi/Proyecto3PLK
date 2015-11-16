@@ -16,11 +16,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import Paq.Personajes.Barril;
+import Paq.Personajes.Barril;
 import Paq.Personajes.Prota;
+
 
 
 public class Escenario extends JFrame{
 	public Prota miProta;
+	public Barril miBarril;
 	public JPanel panelPrincipal;
 	public JPanel panelPuntuacion;
 	private Image ImagenFondo;
@@ -82,14 +86,25 @@ public class Escenario extends JFrame{
 		panelPuntuacion.add(nombreJugador);
 		
 		creaPersonaje(500, 300);
+		creaBarril(1000,200);
 	}
 	public void creaPersonaje( int posX, int posY ) {
-		// Crear y añadir el coche a la ventana
+		// Crear y añadir el prota a la ventana
 		miProta = new Prota();
 		miProta.setPosicion( posX, posY );
 		
 		panelPrincipal.add( miProta.getGraficoActual() );  // Añade al panel visual
 		miProta.getGraficoActual().setLocation(posX, posY);
-		miProta.getGraficoActual().repaint();  // Refresca el dibujado del coche
+		miProta.getGraficoActual().repaint();  // Refresca el dibujado del prota
+	}
+	
+	public void creaBarril( int posX, int posY ) {
+		// Crear y añadir el barril a la ventana
+		miBarril = new Barril();
+		miBarril.setPosicion( posX, posY );
+		
+		panelPrincipal.add( miBarril.getGraficoActual() );  // Añade al panel visual
+		miBarril.getGraficoActual().setLocation(posX, posY);
+		miBarril.getGraficoActual().repaint();  // Refresca el dibujado del barril
 	}
 }

@@ -1,10 +1,10 @@
 package Paq.Personajes;
 
-public class Municion extends Objetos {
+public class Municion  {
 	
 
-	public Municion(String nombre, Imagenmov nombreimagen) {
-		super(nombre, nombreimagen);
+	public Municion() {
+		
 
 	}
 
