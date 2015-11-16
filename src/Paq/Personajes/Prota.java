@@ -53,6 +53,7 @@ public class Prota  {
 			super.paintComponent(grafico);
 		}
 	}
+	//
 	public Prota(){
 		ImagenPersonajeUP = new Imagenmov("prototipo.png");
 		ImagenPersonajeUP.setSize(50,50 );
