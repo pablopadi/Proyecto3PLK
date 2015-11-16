@@ -2,8 +2,10 @@ package Paq.Personajes;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
+
 
 
 
@@ -108,4 +110,5 @@ public class Prota  {
 	public Imagenmov getGraficoActual() {
 		return miGraficoActual;
 	}
+	
 }

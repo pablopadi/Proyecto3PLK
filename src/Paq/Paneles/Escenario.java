@@ -18,12 +18,14 @@ import javax.swing.JTextField;
 
 import Paq.Personajes.Barril;
 import Paq.Personajes.Barril;
+import Paq.Personajes.Enemigo;
 import Paq.Personajes.Prota;
 
 
 
 public class Escenario extends JFrame{
 	public Prota miProta;
+	public Enemigo miEnemigo; // TODO Hacer array de enemigos y spawn de ellos
 	public Barril miBarril;
 	public JPanel panelPrincipal;
 	public JPanel panelPuntuacion;
@@ -87,6 +89,7 @@ public class Escenario extends JFrame{
 		
 		creaPersonaje(500, 300);
 		creaBarril(1000,200);
+		creaEnemigo(100, 400);
 	}
 	public void creaPersonaje( int posX, int posY ) {
 		// Crear y añadir el prota a la ventana
@@ -106,5 +109,14 @@ public class Escenario extends JFrame{
 		panelPrincipal.add( miBarril.getGraficoActual() );  // Añade al panel visual
 		miBarril.getGraficoActual().setLocation(posX, posY);
 		miBarril.getGraficoActual().repaint();  // Refresca el dibujado del barril
+	}
+	public void creaEnemigo( int posX, int posY ) {
+		// Crear y añadir el enemigo a la ventana
+		miEnemigo = new Enemigo();
+		miEnemigo.setPosicion( posX, posY );
+		
+		panelPrincipal.add( miEnemigo.getGraficoActual() );  // Añade al panel visual
+		miEnemigo.getGraficoActual().setLocation(posX, posY);
+		miEnemigo.getGraficoActual().repaint();  // Refresca el dibujado del prota
 	}
 }
