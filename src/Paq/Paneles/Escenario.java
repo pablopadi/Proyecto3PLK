@@ -40,8 +40,8 @@ public class Escenario extends JFrame{
 		Dimension d = gs[0].getDefaultConfiguration().getBounds().getSize();
 		int x = (int) d.getWidth()/4;
 		int y = (int) d.getHeight()/4;
-		this.setBounds(4*x - 3*(x ) - 50 , 4*y - 2*(y + 200) , (1920 + 200) /2, (1080 + 400)/2);
-	//tamaño antiguo 1000*600
+		this.setBounds(4*x - 2*(x + 250) , 4*y - 2*(y + 200) , (1920 + 200) /2, (1080 + 400)/2);
+		//tamaño antiguo 1000*600
 		
 		this.setVisible(true);
 		

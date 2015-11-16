@@ -18,6 +18,6 @@ public class Barril extends Objetos{
 		return true;
 		
 	}
-	
+
 
 }
