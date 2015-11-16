@@ -16,7 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import Paq.Personajes.Prota;
+
+
 public class Escenario extends JFrame{
+	public Prota miProta;
 	public JPanel panelPrincipal;
 	public JPanel panelPuntuacion;
 	private Image ImagenFondo;
@@ -27,6 +31,7 @@ public class Escenario extends JFrame{
 	public JLabel etiquetaNombre;
 	public Menu menuprincipal;
 	public Escenario(Menu a){
+
 		menuprincipal=a;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
@@ -75,5 +80,16 @@ public class Escenario extends JFrame{
 		panelPuntuacion.add(puntuacion);
 		panelPuntuacion.add(etiquetaNombre);
 		panelPuntuacion.add(nombreJugador);
+		
+		creaPersonaje(50, 50);
+	}
+	public void creaPersonaje( int posX, int posY ) {
+		// Crear y añadir el coche a la ventana
+		miProta = new Prota();
+		miProta.setPosicion( posX, posY );
+		
+		panelPrincipal.add( miProta.getGraficoActual() );  // Añade al panel visual
+		miProta.getGraficoActual().setLocation(posX, posY);
+		miProta.getGraficoActual().repaint();  // Refresca el dibujado del coche
 	}
 }
