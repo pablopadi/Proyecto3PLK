@@ -15,11 +15,11 @@ public class Barril {
 	protected Imagenmov miGraficoActual;
 	protected double posX;  // Posición en X (horizontal)
 	protected double posY;  // Posición en Y (vertical)
-	private boolean explotar;
+	//private boolean explotar;
 	private String nombre;
 	
-	public static final int TAMANYO_BARRIL = 50;  // píxels (igual ancho que algo)
-	public static final int RADIO_ESFERA_BARRIL = 30;  // Radio en píxels del bounding circle del coche (para choques)
+	public static final int TAMANYO_BARRIL = 70;  // píxels (igual ancho que algo)
+	public static final int RADIO_ESFERA_BARRIL = 35;  // Radio en píxels del bounding circle del coche (para choques)
 	private static final boolean DIBUJAR_ESFERA_BARRIL = true;  // Dibujado (para depuración) del bounding circle de choque del coche
 	
 	public class Imagenmov extends javax.swing.JPanel {
@@ -55,7 +55,7 @@ public class Barril {
 
 	public Barril() {
 		Imagenbarril = new Imagenmov("barril.png");
-		Imagenbarril.setSize(40,40 );
+		Imagenbarril.setSize(100,70 );
 		miGraficoActual= Imagenbarril;
 		miGraficoActual.setVisible(true);
 	}

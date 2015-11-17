@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import Paq.Personajes.Barril;
 import Paq.Personajes.Barril;
 import Paq.Personajes.Enemigo;
+import Paq.Personajes.Municion;
 import Paq.Personajes.Prota;
 
 
@@ -27,6 +28,7 @@ public class Escenario extends JFrame{
 	public Prota miProta;
 	public Enemigo miEnemigo; // TODO Hacer array de enemigos y spawn de ellos
 	public Barril miBarril;
+	public Municion miMunicion;
 	public JPanel panelPrincipal;
 	public JPanel panelPuntuacion;
 	private Image ImagenFondo;
@@ -88,8 +90,9 @@ public class Escenario extends JFrame{
 		panelPuntuacion.add(nombreJugador);
 		
 		creaPersonaje(500, 300);
-		creaBarril(1000,200);
+		creaBarril(900,400);
 		creaEnemigo(100, 400);
+		creaMunicion(400,500);
 	}
 	public void creaPersonaje( int posX, int posY ) {
 		// Crear y añadir el prota a la ventana
@@ -110,6 +113,17 @@ public class Escenario extends JFrame{
 		miBarril.getGraficoActual().setLocation(posX, posY);
 		miBarril.getGraficoActual().repaint();  // Refresca el dibujado del barril
 	}
+	
+	public void creaMunicion( int posX, int posY ) {
+		// Crear y añadir el barril a la ventana
+		miMunicion = new Municion();
+		miMunicion.setPosicion( posX, posY );
+		
+		panelPrincipal.add( miMunicion.getGraficoActual() );  // Añade al panel visual
+		miMunicion.getGraficoActual().setLocation(posX, posY);
+		miMunicion.getGraficoActual().repaint();  // Refresca el dibujado del municion
+	}
+	
 	public void creaEnemigo( int posX, int posY ) {
 		// Crear y añadir el enemigo a la ventana
 		miEnemigo = new Enemigo();
