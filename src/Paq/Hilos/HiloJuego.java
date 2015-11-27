@@ -21,10 +21,9 @@ public class HiloJuego extends Thread {
 
 	// Lo que va ejecutar cada vez que se lance el hilo
 	public void run() {
-		while (activo) {
 			try {
-				Escenario escenario = new Escenario(a);
-				this.parar();
+				Escenario.main(a);
+			
 				// Que espere un segundo antes de ejecutarse
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -32,7 +31,7 @@ public class HiloJuego extends Thread {
 
 			// Lo que quiero que haga el hilo
 			
-		}
+		
 	}
 
 }

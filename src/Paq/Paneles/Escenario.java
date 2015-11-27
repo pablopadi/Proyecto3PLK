@@ -8,6 +8,13 @@ import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -15,6 +22,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
+
 
 import Paq.Personajes.Barril;
 import Paq.Personajes.Barril;
@@ -25,11 +35,11 @@ import Paq.Personajes.Prota;
 
 
 public class Escenario extends JFrame{
-	public Prota miProta;
+	public static Prota miProta;
 	public Enemigo miEnemigo; // TODO Hacer array de enemigos y spawn de ellos
 	public Barril miBarril;
 	public Municion miMunicion;
-	public JPanel panelPrincipal;
+	public static JPanel panelPrincipal;
 	public JPanel panelPuntuacion;
 	private Image ImagenFondo;
 	private URL fondo;
@@ -38,6 +48,7 @@ public class Escenario extends JFrame{
 	public static JTextField nombreJugador;
 	public JLabel etiquetaNombre;
 	public Menu menuprincipal;
+	public static HiloMovPrsonaje hilojuegoprincipal;
 	public Escenario(Menu a){
 
 		menuprincipal=a;
@@ -56,7 +67,7 @@ public class Escenario extends JFrame{
 		this.setBounds(4*x - 2*(x + 250) , 4*y - 2*(y + 200) , (1920 + 200) /2, (1080 + 400)/2);
 		//tamaño antiguo 1000*600
 		
-		this.setVisible(true);
+		
 		
 		fondo = this.getClass().getResource("ImgEscenario.png");
 		ImagenFondo = new ImageIcon(fondo).getImage();
@@ -89,19 +100,84 @@ public class Escenario extends JFrame{
 		panelPuntuacion.add(etiquetaNombre);
 		panelPuntuacion.add(nombreJugador);
 		
+		// Añadido para que también se gestione por teclado con el KeyListener
+		panelPrincipal.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				miProta.setPosX(arg0.getX());
+				miProta.setPosY(arg0.getY());
+				System.out.println(miProta.getPosX());
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		panelPrincipal.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+			
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				miProta.keyPressed(arg0);
+				System.out.println("adfadgdg");
+				
+			}
+		});
+		
+		
+		panelPrincipal.setFocusable(true);
+		panelPrincipal.requestFocus();
+		panelPrincipal.addFocusListener( new FocusAdapter() {
+					@Override
+					public void focusLost(FocusEvent e) {
+						System.out.println("Foco: "+ Escenario.this.getFocusOwner());
+						panelPrincipal.requestFocus();
+						
+					}
+				});
 		creaPersonaje(500, 300);
-		creaBarril(900,400);
-		creaEnemigo(100, 400);
-		creaMunicion(400,500);
+	//	creaBarril(900,400);
+		//creaEnemigo(100, 400);
+		//creaMunicion(400,500);
 	}
 	public void creaPersonaje( int posX, int posY ) {
 		// Crear y añadir el prota a la ventana
-		miProta = new Prota();
+		miProta = new Prota(this);
 		miProta.setPosicion( posX, posY );
 		
-		panelPrincipal.add( miProta.getGraficoActual() );  // Añade al panel visual
-		miProta.getGraficoActual().setLocation(posX, posY);
-		miProta.getGraficoActual().repaint();  // Refresca el dibujado del prota
+		panelPrincipal.add( miProta.getGrafico()) ;  // Añade al panel visual
+		miProta.getGrafico().setLocation(posX, posY);
+		miProta.getGrafico().repaint();  // Refresca el dibujado del prota
+	
+		
 	}
 	
 	public void creaBarril( int posX, int posY ) {
@@ -133,4 +209,48 @@ public class Escenario extends JFrame{
 		miEnemigo.getGraficoActual().setLocation(posX, posY);
 		miEnemigo.getGraficoActual().repaint();  // Refresca el dibujado del prota
 	}
+	
+	
+	public static void main(Menu a) {
+	
+		try {
+			final Escenario escenario = new Escenario(a);
+			
+			escenario.setVisible( true );
+			panelPrincipal.requestFocus();
+			// Crea el hilo del juego
+			escenario.hilojuegoprincipal = escenario.new HiloMovPrsonaje();  // Sintaxis de new para clase interna
+			Thread nuevoHilo = new Thread( escenario.hilojuegoprincipal );
+			nuevoHilo.start();
+		} catch (Exception e) {
+			System.exit(1);  // Error anormal
+		}
+	}
+
+	public class HiloMovPrsonaje implements Runnable {
+		boolean sigo= true;
+		@Override
+		public void run() {
+			// Bucle principal forever hasta que se pare el juego...
+			while (sigo) {	
+				//Lo que hara el hilo
+				panelPrincipal.repaint();
+				try {
+					Thread.sleep( 400 );
+				} catch (Exception e) {
+				}
+			}
+		}
+		public void start() {
+			// TODO Auto-generated method stub
+			sigo= true;
+		}
+		/** Ordena al hilo detenerse en cuanto sea posible
+		 */
+		public void acaba() {
+			sigo = false;
+		}
+	};
+	
+
 }
