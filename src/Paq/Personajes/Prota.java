@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -70,8 +72,20 @@ public class Prota  extends JComponent{
 	public void setPosX( double posX ) {
 		if(posX-this.posX<0){
 			//izquierda
+			try {
+				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "error.png" ).toURI().toURL() ) );
+			} catch (Exception e) {
+				System.err.println( "Error en carga de recurso: coche.png no encontrado" );
+				e.printStackTrace();
+			}
 		}else if(posX-this.posX>0){
 			//derecha
+			try {
+				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "error.png" ).toURI().toURL() ) );
+			} catch (Exception e) {
+				System.err.println( "Error en carga de recurso: coche.png no encontrado" );
+				e.printStackTrace();
+			}
 		}
 		this.posX = posX; 
 		miGrafico.setLocation( (int)posX, (int)posY );
@@ -80,8 +94,20 @@ public class Prota  extends JComponent{
 	public void setPosY( double posY ) {
 		if(posY-this.posY<0){
 			//arriba
+			try {
+				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "prototipo.png" ).toURI().toURL() ) );
+			} catch (Exception e) {
+				System.err.println( "Error en carga de recurso: coche.png no encontrado" );
+				e.printStackTrace();
+			}
 		}else if(posY-this.posY>0){
 			//abajo
+			try {
+				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "barril.png" ).toURI().toURL() ) );
+			} catch (Exception e) {
+				System.err.println( "Error en carga de recurso: coche.png no encontrado" );
+				e.printStackTrace();
+			}
 		}
 		this.posY = posY; 
 		miGrafico.setLocation( (int)posX, (int)posY );
