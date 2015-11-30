@@ -182,10 +182,7 @@ public double getDestX() {
 		this.destY = destY;
 	}
 public void mover(){
-	System.out.println("mover0 "+posX+" "+posY);
 	this.setPosX(posX + destX);
 	this.setPosY(posY + destY);
-	System.out.println("mover1 "+posX+" "+posY);
-	System.out.println("mover2 "+destX+" "+destY);
 	}
 }

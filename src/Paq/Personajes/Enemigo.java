@@ -5,62 +5,25 @@ import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
 
+import Paq.Paneles.Escenario;
+
 
 
 public class Enemigo {
-	protected Imagenmov miGraficoActual;
-	protected Imagenmov ImagenPersonajeUP;
-	protected Imagenmov ImagenPersonajeDOWN;
-	protected Imagenmov ImagenPersonajeDERECHA;
-	protected Imagenmov ImagenPersonajeIZQUIERDA;
+	private JLabelProta miGrafico;
 	protected double posX;  // Posición en X (horizontal)
 	protected double posY;  // Posición en Y (vertical)
-
+	Escenario a;//Escenario en el que juega
 //Metodo de imagen
-	public static final int TAMANYO_PERSONAJE = 100;  // píxels (igual ancho que algo)
-	public static final int RADIO_ESFERA_PERSONAJE = 35;  // Radio en píxels del bounding circle del coche (para choques)
-	private static final boolean DIBUJAR_ESFERA_PERSONAJE = true;  // Dibujado (para depuración) del bounding circle de choque del coche
-	public class Imagenmov extends javax.swing.JPanel {
-		private String nombreimagen;
-		public Imagenmov(String nombreimagen) {
-			this.setSize(150, 150); // se selecciona el tamaño del panel
-			this.nombreimagen= nombreimagen;
-		}
-
-		// Se crea un método cuyo parámetro debe ser un objeto Graphics
-
-		public void paint(Graphics grafico) {
-			Dimension height = getSize();
-
-			// Se selecciona la imagen que tenemos en el paquete de la //ruta
-			// del programa
-
-			ImageIcon Img = new ImageIcon(getClass()
-					.getResource(nombreimagen));
-
-			// se dibuja la imagen que tenemos en el paquete Images //dentro de
-			// un panel
-
-			grafico.drawImage(Img.getImage(), 0, 0, height.width,
-					height.height, null);
-
-			setOpaque(false);
-			super.paintComponent(grafico);
-		}
-	}
-	//
+	public static final int TAMANYO_Enemigo = 100;  // píxels (igual ancho que algo)
+	public static final int RADIO_ESFERA_Enemigo = 35;  // Radio en píxels del bounding circle del coche (para choques)
+	private static final boolean DIBUJAR_ESFERA_Enemigo = true;  // Dibujado (para depuración) del bounding circle de choque del coche
 	
-	public Enemigo(){
-		ImagenPersonajeUP = new Imagenmov("error.png");
-		ImagenPersonajeUP.setSize(50,50 );
-		ImagenPersonajeDOWN = new Imagenmov("error.png");
-		ImagenPersonajeDOWN.setSize(50,50 );
-		ImagenPersonajeDERECHA = new Imagenmov("error.png");
-		ImagenPersonajeDERECHA.setSize(50,50 );
-		ImagenPersonajeIZQUIERDA = new Imagenmov("error.png");
-		ImagenPersonajeIZQUIERDA.setSize(50,50 );
-		miGraficoActual= ImagenPersonajeDOWN;
-		miGraficoActual.setVisible(true);
+	
+	public Enemigo(Escenario p){
+		miGrafico = new JLabelProta();
+		miGrafico.setVisible(true);
+		a = p;
 		//miGraficoActual.setBounds( 0, 0, TAMANYO_PERSONAJE, TAMANYO_PERSONAJE );
 		
 		
@@ -75,30 +38,97 @@ public class Enemigo {
 	public void setPosicion( double posX, double posY ) {
 		setPosX( posX );
 		setPosY( posY );
+		miGrafico.setLocation( (int)posX, (int)posY );
 	}
-	
+	public JLabelProta getGrafico() {
+		return miGrafico;
+	}
 	public void setPosX( double posX ) {
 		if(posX-this.posX<0){
-			miGraficoActual= ImagenPersonajeDERECHA;
+			try {
+				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "error.png" ).toURI().toURL() ) );
+			} catch (Exception e) {
+				System.err.println( "Error en carga de recurso: coche.png no encontrado" );
+				e.printStackTrace();
+			}
 		}else if(posX-this.posX>0){
-			miGraficoActual= ImagenPersonajeIZQUIERDA;
+			try {
+				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "error.png" ).toURI().toURL() ) );
+			} catch (Exception e) {
+				System.err.println( "Error en carga de recurso: coche.png no encontrado" );
+				e.printStackTrace();
+			}
 		}
 		this.posX = posX; 
+		miGrafico.setLocation( (int)posX, (int)posY );
 	}
 	
 	public void setPosY( double posY ) {
 		if(posY-this.posY<0){
-			miGraficoActual= ImagenPersonajeDOWN;
+			//arriba
+			try {
+				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "prototipo.png" ).toURI().toURL() ) );
+			} catch (Exception e) {
+				System.err.println( "Error en carga de recurso: coche.png no encontrado" );
+				e.printStackTrace();
+			}
 		}else if(posY-this.posY>0){
-			miGraficoActual= ImagenPersonajeUP;
+			//abajo
+			try {
+				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "prototipo.png" ).toURI().toURL() ) );
+			} catch (Exception e) {
+				System.err.println( "Error en carga de recurso: coche.png no encontrado" );
+				e.printStackTrace();
+			}
 		}
 		this.posY = posY; 
-	
+		miGrafico.setLocation( (int)posX, (int)posY );
+	}
+	/** Calcula si hay choque en horizontal con los límites del mundo
+	 * @param coche	Coche cuyo choque se comprueba con su posición actual
+	 * @return	true si hay choque horizontal, false si no lo hay
+	 */
+	public boolean hayChoqueHorizontalIzquierda( Enemigo zombi ) {
+		return ( zombi.getPosX()>a.panelPrincipal.getWidth()-50-JLabelEnemigo.ANCHURA_Enemigo/2-JLabelEnemigo.RADIO_ESFERA_Enemigo );
+	}
+	public boolean hayChoqueHorizontalDerecha( Enemigo zombi ) {
+		return (zombi.getPosX() < JLabelEnemigo.RADIO_ESFERA_Enemigo+50-JLabelEnemigo.ANCHURA_Enemigo/2 
+				 );
 	}
 	
-	public Imagenmov getGraficoActual() {
-		return miGraficoActual;
+	/** Calcula si hay choque en vertical con los límites del mundo
+	 * @param coche	Coche cuyo choque se comprueba con su posición actual
+	 * @return	true si hay choque vertical, false si no lo hay
+	 */
+	public boolean hayChoqueVerticalAbajo  (Enemigo zombi ) {
+		return ( zombi.getPosY()>a.panelPrincipal.getHeight()-50-JLabelEnemigo.TAMANYO_Enemigo/2-JLabelEnemigo.RADIO_ESFERA_Enemigo );
 	}
+	public boolean hayChoqueVerticalArriba(  Enemigo zombi ) {
+		return (zombi.getPosY() < JLabelEnemigo.RADIO_ESFERA_Enemigo+50-JLabelEnemigo.TAMANYO_Enemigo/2  );
+	}
+	public void mover(){
+		double poxProta = a.miProta.getPosX();
+		double poyProta = a.miProta.getPosY();
+		if(Math.abs(poxProta-posX)<Math.abs(poyProta-posY)){
+			if(poyProta>posY){
+				if(!hayChoqueVerticalArriba(this))
+			setPosY(posY+10);
+			}else{
+				if(!hayChoqueVerticalAbajo(this))
+				setPosY(posY-10);
+			}
+		}else{
+			if(poxProta>posX){
+				if(!hayChoqueHorizontalDerecha(this))
+				setPosX(posX+10);
+			}else{
+				if(!hayChoqueHorizontalIzquierda(this))
+				setPosX(posX-10);
+				}
+			
+		}
+		}
+	
 }
 
 

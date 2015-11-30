@@ -16,6 +16,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -36,7 +37,8 @@ import Paq.Personajes.Prota;
 
 public class Escenario extends JFrame{
 	public static Prota miProta;
-	public Enemigo miEnemigo; // TODO Hacer array de enemigos y spawn de ellos
+	public ArrayList<Enemigo> misEnemigos = new ArrayList<>();
+	//public Enemigo miEnemigo; // TODO Hacer array de enemigos y spawn de ellos
 	public Barril miBarril;
 	public Municion miMunicion;
 	public static JPanel panelPrincipal;
@@ -48,7 +50,9 @@ public class Escenario extends JFrame{
 	public static JTextField nombreJugador;
 	public JLabel etiquetaNombre;
 	public Menu menuprincipal;
-	public static HiloMovPrsonaje hilojuegoprincipal;
+	public static HiloMovPrsonaje hilomovimiento;
+	public static HiloCrearZombis hilocrearZombis;
+	int numeroZombisRonda=6;
 	public Escenario(Menu a){
 
 		menuprincipal=a;
@@ -101,39 +105,7 @@ public class Escenario extends JFrame{
 		panelPuntuacion.add(nombreJugador);
 		
 		// Añadido para que también se gestione por teclado con el KeyListener
-		panelPrincipal.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				miProta.setPosX(arg0.getX());
-				miProta.setPosY(arg0.getY());
-				System.out.println(miProta.getPosX());
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		
 		panelPrincipal.addKeyListener(new KeyAdapter() {
 			
 			@Override
@@ -165,7 +137,7 @@ public class Escenario extends JFrame{
 				});
 		creaPersonaje(500, 300);
 	//	creaBarril(900,400);
-		//creaEnemigo(100, 400);
+		
 		//creaMunicion(400,500);
 	}
 	public void creaPersonaje( int posX, int posY ) {
@@ -202,12 +174,12 @@ public class Escenario extends JFrame{
 	
 	public void creaEnemigo( int posX, int posY ) {
 		// Crear y añadir el enemigo a la ventana
-		miEnemigo = new Enemigo();
+		 Enemigo	miEnemigo = new Enemigo(this);
 		miEnemigo.setPosicion( posX, posY );
-		
-		panelPrincipal.add( miEnemigo.getGraficoActual() );  // Añade al panel visual
-		miEnemigo.getGraficoActual().setLocation(posX, posY);
-		miEnemigo.getGraficoActual().repaint();  // Refresca el dibujado del prota
+		misEnemigos.add(miEnemigo);
+		panelPrincipal.add( miEnemigo.getGrafico()) ;  // Añade al panel visual
+		miEnemigo.getGrafico().setLocation(posX, posY);
+		miEnemigo.getGrafico().repaint();  // Refresca el dibujado del prota
 	}
 	
 	
@@ -219,14 +191,40 @@ public class Escenario extends JFrame{
 			escenario.setVisible( true );
 			panelPrincipal.requestFocus();
 			// Crea el hilo del juego
-			escenario.hilojuegoprincipal = escenario.new HiloMovPrsonaje();  // Sintaxis de new para clase interna
-			Thread nuevoHilo = new Thread( escenario.hilojuegoprincipal );
-			nuevoHilo.start();
+			escenario.hilomovimiento = escenario.new HiloMovPrsonaje();  // Sintaxis de new para clase interna
+			Thread Hilomov = new Thread( escenario.hilomovimiento );
+			Hilomov.start();
+			escenario.hilocrearZombis= escenario.new HiloCrearZombis();  // Sintaxis de new para clase interna
+			Thread HiloZombi = new Thread( escenario.hilocrearZombis );
+			HiloZombi.start();
 		} catch (Exception e) {
 			System.exit(1);  // Error anormal
 		}
 	}
-
+	public class HiloCrearZombis implements Runnable {
+		boolean sigo= true;
+		int n =0;
+		@Override
+		public void run() {
+			// Bucle principal forever hasta que se pare el juego...
+			while (sigo) {	
+				//Lo que hara el hilo
+				panelPrincipal.repaint();
+				try {
+					Thread.sleep( 5000 );
+					creaEnemigo(50, 300);
+					creaEnemigo(950, 300);
+					n=n+2;
+					
+				} catch (Exception e) {
+				}
+				if(n==numeroZombisRonda){
+					sigo= false;
+					//Poner nueva ronda
+				}
+			}
+		}
+	}
 	public class HiloMovPrsonaje implements Runnable {
 		boolean sigo= true;
 		@Override
@@ -236,7 +234,11 @@ public class Escenario extends JFrame{
 				//Lo que hara el hilo
 				panelPrincipal.repaint();
 				try {
-					Thread.sleep( 400 );
+					Thread.sleep( 1000 );
+					for(Enemigo miEnemigo : misEnemigos){
+					miEnemigo.mover();
+					}
+					
 				} catch (Exception e) {
 				}
 			}
