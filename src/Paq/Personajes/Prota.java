@@ -181,8 +181,26 @@ public double getDestX() {
 	public void setDestY(double destY) {
 		this.destY = destY;
 	}
+	public boolean hayChoqueconEnemigo(Enemigo miEnemigo) {
+		if ( miEnemigo.getPosX() + JLabelEnemigo.RADIO_ESFERA_Enemigo  > this.getPosX() - this.miGrafico.RADIO_ESFERA_PERSONAJE
+				&& miEnemigo.getPosX() - JLabelEnemigo.RADIO_ESFERA_Enemigo  < this.getPosX() + this.miGrafico.RADIO_ESFERA_PERSONAJE
+				&& miEnemigo.getPosY() + JLabelEnemigo.RADIO_ESFERA_Enemigo > this.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
+				&& miEnemigo.getPosY() - JLabelEnemigo.RADIO_ESFERA_Enemigo  < this.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE
+				){
+			return true;
+			
+		}
+		return false;
+	}
 public void mover(){
 	this.setPosX(posX + destX);
 	this.setPosY(posY + destY);
+	for(Enemigo miEnemigo : a.misEnemigos){
+		if(hayChoqueconEnemigo(miEnemigo)){
+			this.setPosX(posX - destX);
+			this.setPosY(posY - destY);
+		}
+	}
+	
 	}
 }

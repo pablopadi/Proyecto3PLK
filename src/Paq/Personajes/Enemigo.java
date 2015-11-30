@@ -5,12 +5,14 @@ import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
 
+
+
 import Paq.Paneles.Escenario;
 
 
 
 public class Enemigo {
-	private JLabelProta miGrafico;
+	private JLabelEnemigo miGrafico;
 	protected double posX;  // Posición en X (horizontal)
 	protected double posY;  // Posición en Y (vertical)
 	Escenario a;//Escenario en el que juega
@@ -21,7 +23,7 @@ public class Enemigo {
 	
 	
 	public Enemigo(Escenario p){
-		miGrafico = new JLabelProta();
+		miGrafico = new JLabelEnemigo();
 		miGrafico.setVisible(true);
 		a = p;
 		//miGraficoActual.setBounds( 0, 0, TAMANYO_PERSONAJE, TAMANYO_PERSONAJE );
@@ -40,7 +42,7 @@ public class Enemigo {
 		setPosY( posY );
 		miGrafico.setLocation( (int)posX, (int)posY );
 	}
-	public JLabelProta getGrafico() {
+	public JLabelEnemigo getGrafico() {
 		return miGrafico;
 	}
 	public void setPosX( double posX ) {
@@ -106,9 +108,25 @@ public class Enemigo {
 	public boolean hayChoqueVerticalArriba(  Enemigo zombi ) {
 		return (zombi.getPosY() < JLabelEnemigo.RADIO_ESFERA_Enemigo+50-JLabelEnemigo.TAMANYO_Enemigo/2  );
 	}
+	public boolean hayChoqueconProta(Prota miProta) {
+		if ( miProta.getPosX() + JLabelProta.RADIO_ESFERA_PERSONAJE  > this.getPosX() - this.miGrafico.RADIO_ESFERA_Enemigo
+				&& miProta.getPosX() - JLabelProta.RADIO_ESFERA_PERSONAJE  < this.getPosX() + this.miGrafico.RADIO_ESFERA_Enemigo
+				&& miProta.getPosY() + JLabelProta.RADIO_ESFERA_PERSONAJE > this.getPosY() - this.miGrafico.RADIO_ESFERA_Enemigo
+				&& miProta.getPosY() - JLabelProta.RADIO_ESFERA_PERSONAJE  < this.getPosY() + this.miGrafico.RADIO_ESFERA_Enemigo
+				){
+			return true;
+			
+		}
+		return false;
+	}
+		
+		
+		
+	
 	public void mover(){
 		double poxProta = a.miProta.getPosX();
 		double poyProta = a.miProta.getPosY();
+		if(!hayChoqueconProta(a.miProta)){
 		if(Math.abs(poxProta-posX)<Math.abs(poyProta-posY)){
 			if(poyProta>posY){
 				if(!hayChoqueVerticalArriba(this))
@@ -127,6 +145,9 @@ public class Enemigo {
 				setPosX(posX-10);
 				}
 			
+		}
+		}else{
+			//Si toca al prota
 		}
 		}
 	
