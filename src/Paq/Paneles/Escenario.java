@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -212,8 +213,18 @@ public class Escenario extends JFrame{
 				panelPrincipal.repaint();
 				try {
 					Thread.sleep( 5000 );
-					creaEnemigo(50, 300);
-					creaEnemigo(950, 300);
+					double ran =  Math.random();
+					if(n>0.5){
+						creaEnemigo(50, 300);
+					}else{
+						creaEnemigo(50, 260);
+					}
+					ran =  Math.random();
+					if(n>0.5){
+						creaEnemigo(950, 300);
+					}else{
+						creaEnemigo(950, 260);
+					}
 					n=n+2;
 					
 				} catch (Exception e) {
