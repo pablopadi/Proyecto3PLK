@@ -117,6 +117,7 @@ public class Enemigo {
 				if(!hayChoqueVerticalAbajo(this))
 				setPosY(posY-10);
 			}
+			//
 		}else{
 			if(poxProta>posX){
 				if(!hayChoqueHorizontalDerecha(this))
