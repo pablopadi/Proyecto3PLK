@@ -197,8 +197,11 @@ public void mover(){
 	this.setPosY(posY + destY);
 	for(Enemigo miEnemigo : a.misEnemigos){
 		if(hayChoqueconEnemigo(miEnemigo)){
-			this.setPosX(posX - destX);
-			this.setPosY(posY - destY);
+			if((!hayChoqueVerticalAbajo(this))||(!hayChoqueVerticalArriba(this))||(!hayChoqueHorizontalDerecha(this))||(!hayChoqueHorizontalIzquierda(this))){
+				this.setPosX(posX - destX);
+				this.setPosY(posY - destY);
+			}
+			
 		}
 	}
 	
