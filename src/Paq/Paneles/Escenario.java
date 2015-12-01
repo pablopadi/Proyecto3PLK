@@ -54,6 +54,7 @@ public class Escenario extends JFrame{
 	public static HiloMovPrsonaje hilomovimiento;
 	public static HiloCrearZombis hilocrearZombis;
 	int numeroZombisRonda=6;
+	int numeroZombisActuales=0;
 	public Escenario(Menu a){
 
 		menuprincipal=a;
@@ -173,14 +174,26 @@ public class Escenario extends JFrame{
 		miMunicion.getGraficoActual().repaint();  // Refresca el dibujado del municion
 	}
 	
-	public void creaEnemigo( int posX, int posY ) {
+	public int creaEnemigo( int posX, int posY,int n) {
 		// Crear y añadir el enemigo a la ventana
+		boolean p = true;
 		 Enemigo	miEnemigo = new Enemigo(this);
 		miEnemigo.setPosicion( posX, posY );
-		misEnemigos.add(miEnemigo);
-		panelPrincipal.add( miEnemigo.getGrafico()) ;  // Añade al panel visual
-		miEnemigo.getGrafico().setLocation(posX, posY);
-		miEnemigo.getGrafico().repaint();  // Refresca el dibujado del prota
+		for(Enemigo otroEnemigo : misEnemigos){
+			if(miEnemigo.hayChoqueconEnemigo(otroEnemigo) ){
+				p=false;
+			}else{
+			
+			}
+		}
+		if(p==true){
+			misEnemigos.add(miEnemigo);
+			panelPrincipal.add( miEnemigo.getGrafico()) ;  // Añade al panel visual
+			miEnemigo.getGrafico().setLocation(posX, posY);
+			miEnemigo.getGrafico().repaint();  // Refresca el dibujado del prota
+			return n+1;
+		}
+	return n;
 	}
 	
 	
@@ -204,7 +217,6 @@ public class Escenario extends JFrame{
 	}
 	public class HiloCrearZombis implements Runnable {
 		boolean sigo= true;
-		int n =0;
 		@Override
 		public void run() {
 			// Bucle principal forever hasta que se pare el juego...
@@ -212,24 +224,25 @@ public class Escenario extends JFrame{
 				//Lo que hara el hilo
 				panelPrincipal.repaint();
 				try {
-					Thread.sleep( 5000 );
+					Thread.sleep( 2000 );
 					double ran =  Math.random();
-					if(n>0.5){
-						creaEnemigo(50, 300);
+					if(ran>0.75){
+						numeroZombisActuales=creaEnemigo(50, 300,	numeroZombisActuales);
+					
+					}else if(ran>0.5){
+						numeroZombisActuales=creaEnemigo(50, 260,numeroZombisActuales);
+						
+					}else if(ran>0.25){
+						numeroZombisActuales=creaEnemigo(950, 300,numeroZombisActuales);
+						
 					}else{
-						creaEnemigo(50, 260);
+						numeroZombisActuales=creaEnemigo(950, 260,numeroZombisActuales);
+						
 					}
-					ran =  Math.random();
-					if(n>0.5){
-						creaEnemigo(950, 300);
-					}else{
-						creaEnemigo(950, 260);
-					}
-					n=n+2;
 					
 				} catch (Exception e) {
 				}
-				if(n==numeroZombisRonda){
+				if(numeroZombisActuales==numeroZombisRonda){
 					sigo= false;
 					//Poner nueva ronda
 				}

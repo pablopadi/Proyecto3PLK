@@ -119,30 +119,79 @@ public class Enemigo {
 		}
 		return false;
 	}
-		
+	public boolean hayChoqueconEnemigo(Enemigo miEnemigo) {
+		if (miEnemigo.getPosX() + JLabelEnemigo.RADIO_ESFERA_Enemigo > this
+				.getPosX() - this.miGrafico.RADIO_ESFERA_Enemigo
+				&& miEnemigo.getPosX() - JLabelEnemigo.RADIO_ESFERA_Enemigo < this
+						.getPosX() + this.miGrafico.RADIO_ESFERA_Enemigo
+				&& miEnemigo.getPosY() + JLabelEnemigo.RADIO_ESFERA_Enemigo > this
+						.getPosY() - this.miGrafico.RADIO_ESFERA_Enemigo
+				&& miEnemigo.getPosY() - JLabelEnemigo.RADIO_ESFERA_Enemigo < this
+						.getPosY() + this.miGrafico.RADIO_ESFERA_Enemigo) {
+			return true;
+
+		}
+		return false;
+	}	
 		
 		
 	
 	public void mover(){
+		boolean p = true;
 		double poxProta = a.miProta.getPosX();
 		double poyProta = a.miProta.getPosY();
 		if(!hayChoqueconProta(a.miProta)){
 		if(Math.abs(poxProta-posX)<Math.abs(poyProta-posY)){
 			if(poyProta>posY){
-				if(!hayChoqueVerticalArriba(this))
-			setPosY(posY+10);
+				if((!hayChoqueVerticalArriba(this))){
+							setPosY(posY+10);
+					for(Enemigo otroEnemigo: a.misEnemigos){
+						if((hayChoqueconEnemigo(otroEnemigo))&&(otroEnemigo!=this)){
+							setPosY(posY-10);
+							break;	
+						}
+					}
+					
+				}
+				
 			}else{
-				if(!hayChoqueVerticalAbajo(this))
-				setPosY(posY-10);
+				if(!hayChoqueVerticalAbajo(this)){
+					setPosY(posY-10);
+					for(Enemigo otroEnemigo: a.misEnemigos){
+						if(hayChoqueconEnemigo(otroEnemigo)&&(otroEnemigo!=this)){
+							setPosY(posY+10);
+							break;
+						}
+					}
+				}
+				
 			}
 			//
 		}else{
 			if(poxProta>posX){
-				if(!hayChoqueHorizontalDerecha(this))
-				setPosX(posX+10);
+				if(!hayChoqueHorizontalDerecha(this)){
+					setPosX(posX+10);
+					for(Enemigo otroEnemigo: a.misEnemigos){
+						if(hayChoqueconEnemigo(otroEnemigo)&&(otroEnemigo!=this)){
+							setPosX(posX-10);
+							break;
+						}
+					}
+				}
+			
+				
 			}else{
-				if(!hayChoqueHorizontalIzquierda(this))
-				setPosX(posX-10);
+				if(!hayChoqueHorizontalIzquierda(this)){
+					setPosX(posX-10);
+					for(Enemigo otroEnemigo: a.misEnemigos){
+						if(hayChoqueconEnemigo(otroEnemigo)&&(otroEnemigo!=this)){
+							setPosX(posX+10);
+							break;
+						}
+					}
+				}
+			
+				
 				}
 			
 		}
