@@ -150,7 +150,7 @@ public class Enemigo {
 						if((hayChoqueconEnemigo(otroEnemigo))&&(otroEnemigo!=this)){
 							setPosY(posY-5);
 							ran = new Random();
-							
+							//
 							break;	
 						}
 					}

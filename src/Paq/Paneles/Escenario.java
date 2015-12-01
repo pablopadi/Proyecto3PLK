@@ -237,7 +237,7 @@ public class Escenario extends JFrame{
 						
 					}else{
 						numeroZombisActuales=creaEnemigo(950, 260,numeroZombisActuales);
-						
+						//
 					}
 					
 				} catch (Exception e) {

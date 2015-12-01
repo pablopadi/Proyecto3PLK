@@ -134,32 +134,17 @@ public class Prota extends JComponent {
 		int key = e.getKeyCode();
 		if (key == e.VK_LEFT) {
 			movimientos[0]=true;
-//			if (hayChoqueHorizontalDerecha(this) == false) {
-//				destX = -10;
-//				mover();
-//			}
+
 		} else if (key == e.VK_RIGHT) {
 			movimientos[1]=true;
-//			if (hayChoqueHorizontalIzquierda(this) == false) {
-//				destX = 10;
-//				mover();
-//			}
+
 		} else if (key == e.VK_UP) {
 			movimientos[2]=true;
-//			if (hayChoqueVerticalArriba(this) == false) {
-//				destY = -10;
-//				mover();
-//			}
+
 		} else if (key == e.VK_DOWN) {
 			movimientos[3]=true;
-//			if (hayChoqueVerticalAbajo(this) == false){
-//				destY = 10;
-//			
-//				mover();
-//			}
 		}
-//		setDestX(0);
-//		setDestY(0);
+
 	}
 public void keyReleased(KeyEvent e){
 	int key = e.getKeyCode();
