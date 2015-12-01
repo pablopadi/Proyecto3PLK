@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -23,6 +24,7 @@ public class Prota extends JComponent {
 	protected double destX; //
 	protected double destY;
 	protected String nombre; // Nombre del personaje
+	protected boolean[] movimientos = new boolean[4];
 
 	public static final int TAMANYO_PERSONAJE = 100; // píxels (igual ancho que
 														// algo)
@@ -131,30 +133,50 @@ public class Prota extends JComponent {
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		if (key == e.VK_LEFT) {
-			if (hayChoqueHorizontalDerecha(this) == false) {
-				destX = -10;
-				mover();
-			}
+			movimientos[0]=true;
+//			if (hayChoqueHorizontalDerecha(this) == false) {
+//				destX = -10;
+//				mover();
+//			}
 		} else if (key == e.VK_RIGHT) {
-			if (hayChoqueHorizontalIzquierda(this) == false) {
-				destX = 10;
-				mover();
-			}
+			movimientos[1]=true;
+//			if (hayChoqueHorizontalIzquierda(this) == false) {
+//				destX = 10;
+//				mover();
+//			}
 		} else if (key == e.VK_UP) {
-			if (hayChoqueVerticalArriba(this) == false) {
-				destY = -10;
-				mover();
-			}
+			movimientos[2]=true;
+//			if (hayChoqueVerticalArriba(this) == false) {
+//				destY = -10;
+//				mover();
+//			}
 		} else if (key == e.VK_DOWN) {
-			if (hayChoqueVerticalAbajo(this) == false)
-				destY = 10;
-			{
-				mover();
-			}
+			movimientos[3]=true;
+//			if (hayChoqueVerticalAbajo(this) == false){
+//				destY = 10;
+//			
+//				mover();
+//			}
 		}
-		setDestX(0);
-		setDestY(0);
+//		setDestX(0);
+//		setDestY(0);
 	}
+public void keyReleased(KeyEvent e){
+	int key = e.getKeyCode();
+	if (key == e.VK_LEFT) {
+		movimientos[0]=false;
+
+	} else if (key == e.VK_RIGHT) {
+		movimientos[1]=false;
+
+	} else if (key == e.VK_UP) {
+		movimientos[2]=false;
+	
+	} else if (key == e.VK_DOWN) {
+		movimientos[3]=false;
+	
+	}
+}
 
 	/**
 	 * Calcula si hay choque en horizontal con los límites del mundo
@@ -224,9 +246,23 @@ public class Prota extends JComponent {
 	}
 
 	public void mover() {
-		if ((!hayChoqueVerticalAbajo(this)) || (!hayChoqueVerticalArriba(this))
-				|| (!hayChoqueHorizontalDerecha(this))
-				|| (!hayChoqueHorizontalIzquierda(this))) {
+		if(movimientos[0]){
+			if (!hayChoqueHorizontalDerecha(this)) 
+			destX = -10;
+		}
+		if(movimientos[1]){
+			if (!hayChoqueHorizontalIzquierda(this)) 
+			destX = +10;
+		}
+		if(movimientos[2]){
+			if (!hayChoqueVerticalArriba(this)) 
+			destY = -10;
+		}
+		if(movimientos[3]){
+			if (!hayChoqueVerticalAbajo(this)) 
+			destY = +10;
+		}
+
 			this.setPosX(posX + destX);
 			this.setPosY(posY + destY);
 			for (Enemigo miEnemigo : a.misEnemigos) {
@@ -237,6 +273,8 @@ public class Prota extends JComponent {
 				}
 			}
 
-		}
+		
+		setDestX(0);
+		setDestY(0);
 	}
 }

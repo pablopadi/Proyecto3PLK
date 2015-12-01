@@ -2,6 +2,7 @@ package Paq.Personajes;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 
@@ -20,7 +21,7 @@ public class Enemigo {
 	public static final int TAMANYO_Enemigo = 100;  // píxels (igual ancho que algo)
 	public static final int RADIO_ESFERA_Enemigo = 35;  // Radio en píxels del bounding circle del coche (para choques)
 	private static final boolean DIBUJAR_ESFERA_Enemigo = true;  // Dibujado (para depuración) del bounding circle de choque del coche
-	
+	Random ran ;
 	
 	public Enemigo(Escenario p){
 		miGrafico = new JLabelEnemigo();
@@ -144,10 +145,12 @@ public class Enemigo {
 		if(Math.abs(poxProta-posX)<Math.abs(poyProta-posY)){
 			if(poyProta>posY){
 				if((!hayChoqueVerticalArriba(this))){
-							setPosY(posY+10);
+							setPosY(posY+5);
 					for(Enemigo otroEnemigo: a.misEnemigos){
 						if((hayChoqueconEnemigo(otroEnemigo))&&(otroEnemigo!=this)){
-							setPosY(posY-10);
+							setPosY(posY-5);
+							ran = new Random();
+							
 							break;	
 						}
 					}
@@ -156,10 +159,10 @@ public class Enemigo {
 				
 			}else{
 				if(!hayChoqueVerticalAbajo(this)){
-					setPosY(posY-10);
+					setPosY(posY-5);
 					for(Enemigo otroEnemigo: a.misEnemigos){
 						if(hayChoqueconEnemigo(otroEnemigo)&&(otroEnemigo!=this)){
-							setPosY(posY+10);
+							setPosY(posY+5);
 							break;
 						}
 					}
@@ -170,10 +173,10 @@ public class Enemigo {
 		}else{
 			if(poxProta>posX){
 				if(!hayChoqueHorizontalDerecha(this)){
-					setPosX(posX+10);
+					setPosX(posX+5);
 					for(Enemigo otroEnemigo: a.misEnemigos){
 						if(hayChoqueconEnemigo(otroEnemigo)&&(otroEnemigo!=this)){
-							setPosX(posX-10);
+							setPosX(posX-5);
 							break;
 						}
 					}
@@ -182,10 +185,10 @@ public class Enemigo {
 				
 			}else{
 				if(!hayChoqueHorizontalIzquierda(this)){
-					setPosX(posX-10);
+					setPosX(posX-5);
 					for(Enemigo otroEnemigo: a.misEnemigos){
 						if(hayChoqueconEnemigo(otroEnemigo)&&(otroEnemigo!=this)){
-							setPosX(posX+10);
+							setPosX(posX+5);
 							break;
 						}
 					}

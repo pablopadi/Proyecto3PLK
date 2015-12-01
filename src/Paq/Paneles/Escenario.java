@@ -113,7 +113,7 @@ public class Escenario extends JFrame{
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				// TODO Auto-generated method stub
-			
+				miProta.keyReleased(arg0);
 				
 			}
 			
@@ -121,7 +121,7 @@ public class Escenario extends JFrame{
 			public void keyPressed(KeyEvent arg0) {
 				// TODO Auto-generated method stub
 				miProta.keyPressed(arg0);
-				System.out.println("adfadgdg");
+				
 				
 			}
 		});
@@ -258,7 +258,8 @@ public class Escenario extends JFrame{
 				//Lo que hara el hilo
 				panelPrincipal.repaint();
 				try {
-					Thread.sleep( 1000 );
+					Thread.sleep( 100 );
+					miProta.mover();
 					for(Enemigo miEnemigo : misEnemigos){
 					miEnemigo.mover();
 					}
