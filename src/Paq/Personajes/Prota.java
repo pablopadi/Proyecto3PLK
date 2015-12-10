@@ -26,20 +26,7 @@ public class Prota extends JComponent {
 	protected String nombre; // Nombre del personaje
 	protected boolean[] movimientos = new boolean[4];
 
-	public static final int TAMANYO_PERSONAJE = 100; // píxels (igual ancho que
-														// algo)
-	public static final int RADIO_ESFERA_PERSONAJE = 35; // Radio en píxels del
-															// bounding circle
-															// del coche (para
-															// choques)
-	private static final boolean DIBUJAR_ESFERA_PERSONAJE = true; // Dibujado
-																	// (para
-																	// depuración)
-																	// del
-																	// bounding
-																	// circle de
-																	// choque
-																	// del coche
+	
 
 	//
 	public Prota(Escenario p) {
@@ -229,7 +216,34 @@ public void keyReleased(KeyEvent e){
 		}
 		return false;
 	}
+	public boolean hayChoqueconMunicion(Municion miMunicion) {
+		if (miMunicion.getPosX() + JLabelMunicion.RADIO_ESFERA_MUNICION > this
+				.getPosX() - this.miGrafico.RADIO_ESFERA_PERSONAJE
+				&& miMunicion.getPosX() - JLabelMunicion.RADIO_ESFERA_MUNICION < this
+						.getPosX() + this.miGrafico.RADIO_ESFERA_PERSONAJE
+				&& miMunicion.getPosY() + JLabelMunicion.RADIO_ESFERA_MUNICION > this
+						.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
+				&& miMunicion.getPosY() - JLabelMunicion.RADIO_ESFERA_MUNICION< this
+						.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE) {
+			return true;
 
+		}
+		return false;
+	}
+	public boolean hayChoqueconBarril(Barril barril) {
+		if (barril.getPosX() + JLabelBarril.RADIO_ESFERA_BARRIL > this
+				.getPosX() - this.miGrafico.RADIO_ESFERA_PERSONAJE
+				&& barril.getPosX() - JLabelBarril.RADIO_ESFERA_BARRIL < this
+						.getPosX() + this.miGrafico.RADIO_ESFERA_PERSONAJE
+				&& barril.getPosY() + JLabelBarril.RADIO_ESFERA_BARRIL > this
+						.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
+				&& barril.getPosY() - JLabelBarril.RADIO_ESFERA_BARRIL< this
+						.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE) {
+			return true;
+
+		}
+		return false;
+	}
 	public void mover() {
 		if(movimientos[0]){
 			if (!hayChoqueHorizontalDerecha(this)) 
@@ -250,6 +264,13 @@ public void keyReleased(KeyEvent e){
 
 			this.setPosX(posX + destX);
 			this.setPosY(posY + destY);
+			
+			for (Municion miMunicion : a.T_Municion) {
+				if (hayChoqueconMunicion(miMunicion)) {
+					miMunicion.getMiGrafico().setVisible(false);
+					a.remove(miMunicion.getMiGrafico());
+				}
+			}
 			for (Enemigo miEnemigo : a.misEnemigos) {
 				if (hayChoqueconEnemigo(miEnemigo)) {
 						this.setPosX(posX - destX);
@@ -257,7 +278,13 @@ public void keyReleased(KeyEvent e){
 						break;
 				}
 			}
-
+			for (Barril barril : a.barriles) {
+				if (hayChoqueconBarril(barril)) {
+						this.setPosX(posX - destX);
+						this.setPosY(posY - destY);
+						break;
+				}
+			}
 		
 		setDestX(0);
 		setDestY(0);

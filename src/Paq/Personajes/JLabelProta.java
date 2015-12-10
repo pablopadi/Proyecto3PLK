@@ -13,7 +13,7 @@ public class JLabelProta extends JLabel {
 	private static final long serialVersionUID = 1L;  // Para serialización
 	public static final int TAMANYO_PERSONAJE= 50;  // píxels 
 	public static final int ANCHURA_PERSONAJE= 50;
-	public static final int RADIO_ESFERA_PERSONAJE= 25;  // Radio en píxels del bounding circle del prota (para golpes)
+	public static final int RADIO_ESFERA_PERSONAJE= 22;  // Radio en píxels del bounding circle del prota (para golpes)
 	private static final boolean DIBUJAR_ESFERA_PERSONAJE = true;  // Dibujado (para depuración) del bounding circle de choque del coche
 	
 	/** Construye y devuelve el JLabel del prota con su gráfico y tamaño
@@ -29,7 +29,7 @@ public class JLabelProta extends JLabel {
 		setSize(TAMANYO_PERSONAJE, ANCHURA_PERSONAJE);
 	}
 	
-	// Redefinición del paintComponent para que se escale y se rote el gráfico
+	// Redefinición del paintComponent para que se escale 
 		@Override
 		protected void paintComponent(Graphics g) {
 //			super.paintComponent(g);   // En este caso no nos sirve el pintado normal de un JLabel

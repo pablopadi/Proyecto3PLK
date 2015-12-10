@@ -12,7 +12,7 @@ public class JLabelEnemigo extends JLabel{
 	private static final long serialVersionUID = 1L;  // Para serialización
 	public static final int TAMANYO_Enemigo= 50;  // píxels 
 	public static final int ANCHURA_Enemigo= 50;
-	public static final int RADIO_ESFERA_Enemigo= 25;  // Radio en píxels del bounding circle del prota (para golpes)
+	public static final int RADIO_ESFERA_Enemigo= 22;  // Radio en píxels del bounding circle del prota (para golpes)
 	private static final boolean DIBUJAR_ESFERA_Enemigo = true;  // Dibujado (para depuración) del bounding circle de choque del coche
 	public JLabelEnemigo() {
 		try {

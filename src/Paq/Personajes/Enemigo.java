@@ -18,9 +18,7 @@ public class Enemigo {
 	protected double posY;  // Posición en Y (vertical)
 	Escenario a;//Escenario en el que juega
 //Metodo de imagen
-	public static final int TAMANYO_Enemigo = 100;  // píxels (igual ancho que algo)
-	public static final int RADIO_ESFERA_Enemigo = 35;  // Radio en píxels del bounding circle del coche (para choques)
-	private static final boolean DIBUJAR_ESFERA_Enemigo = true;  // Dibujado (para depuración) del bounding circle de choque del coche
+	
 	Random ran ;
 	
 	public Enemigo(Escenario p){
@@ -135,74 +133,276 @@ public class Enemigo {
 		return false;
 	}	
 		
-		
+	public boolean hayChoqueconBarril(Barril miBarril) {
+		if (miBarril.getPosX() + JLabelBarril.RADIO_ESFERA_BARRIL > this
+				.getPosX() - this.miGrafico.RADIO_ESFERA_Enemigo
+				&& miBarril.getPosX() - JLabelBarril.RADIO_ESFERA_BARRIL< this
+						.getPosX() + this.miGrafico.RADIO_ESFERA_Enemigo
+				&& miBarril.getPosY() + JLabelBarril.RADIO_ESFERA_BARRIL> this
+						.getPosY() - this.miGrafico.RADIO_ESFERA_Enemigo
+				&& miBarril.getPosY() - JLabelBarril.RADIO_ESFERA_BARRIL< this
+						.getPosY() + this.miGrafico.RADIO_ESFERA_Enemigo) {
+			return true;
+
+		}
+		return false;
+	}	
 	
-	public void mover(){
+	public void mover() {
+		int k;
 		boolean p = true;
 		double poxProta = a.miProta.getPosX();
 		double poyProta = a.miProta.getPosY();
-		if(!hayChoqueconProta(a.miProta)){
-		if(Math.abs(poxProta-posX)<Math.abs(poyProta-posY)){
-			if(poyProta>posY){
-				if((!hayChoqueVerticalArriba(this))){
-							setPosY(posY+5);
-					for(Enemigo otroEnemigo: a.misEnemigos){
-						if((hayChoqueconEnemigo(otroEnemigo))&&(otroEnemigo!=this)){
-							setPosY(posY-5);
-							ran = new Random();
-							//
-							break;	
-						}
-					}
+		if (!hayChoqueconProta(a.miProta)) {
+			if (Math.abs(poxProta - posX) < Math.abs(poyProta - posY)) {
+				if (poyProta > posY) {
 					
-				}
-				
-			}else{
-				if(!hayChoqueVerticalAbajo(this)){
-					setPosY(posY-5);
-					for(Enemigo otroEnemigo: a.misEnemigos){
-						if(hayChoqueconEnemigo(otroEnemigo)&&(otroEnemigo!=this)){
-							setPosY(posY+5);
-							break;
+					if ((!hayChoqueVerticalAbajo(this))) {
+						setPosY(posY + 5);
+						//choque con barril
+						for (Barril barril : a.barriles) {
+							if ((hayChoqueconBarril(barril ))){
+								setPosY(posY - 5);
+								p=false;
+								//Rodear barril
+								if (!hayChoqueHorizontalIzquierda(this)&&!hayChoqueHorizontalDerecha(this)) {
+									setPosX(posX - 5);
+									for (Enemigo otroEnemigo1 : a.misEnemigos) {
+										if (hayChoqueconEnemigo(otroEnemigo1)
+												&& (otroEnemigo1 != this)) {
+											
+											setPosX(posX + 5);
+											
+											break;
+										}
+									}
+								}
+								break;
+						}else{
+							
 						}
+							
+						}
+					
+						
+					if(p)	{
+						for (Enemigo otroEnemigo : a.misEnemigos) {
+							if ((hayChoqueconEnemigo(otroEnemigo))
+									&& (otroEnemigo != this)) {
+								setPosY(posY - 5);
+								//Rodear personaje
+								if (!hayChoqueHorizontalIzquierda(this)&&!hayChoqueHorizontalDerecha(this)) {
+									
+									setPosX(posX - 5);
+									boolean t = false;
+									for (Enemigo otroEnemigo1 : a.misEnemigos) {
+										for (Barril barril1 : a.barriles) {
+											if ((hayChoqueconBarril(barril1 ) )||(hayChoqueconEnemigo(otroEnemigo1)
+													&& (otroEnemigo1 != this))){
+												setPosX(posX + 5);
+												t = true;
+												break;
+												
+											}
+										}
+									if(t){
+										break;
+									}
+										
+									}
+								}
+								//
+
+								break;
+							}
+						}
+					
 					}
+					}
+
+				} else {
+					if (!hayChoqueVerticalArriba(this)) {
+						setPosY(posY - 5);
+						for (Barril barril : a.barriles) {
+							if ((hayChoqueconBarril(barril ))){
+								setPosY(posY + 5);
+								p=false;
+								//Rodear barril
+								if (!hayChoqueHorizontalDerecha(this)&&!hayChoqueHorizontalIzquierda(this)) {
+									setPosX(posX + 5);
+									for (Enemigo otroEnemigo1 : a.misEnemigos) {
+										if (hayChoqueconEnemigo(otroEnemigo1)
+												&& (otroEnemigo1 != this)) {
+											setPosX(posX - 5);
+											break;
+										}
+									}
+								}
+								break;
+						}else{
+							
+						}
+							
+						}
+						if(p)	{
+							for (Enemigo otroEnemigo : a.misEnemigos) {
+								if (hayChoqueconEnemigo(otroEnemigo)
+										&& (otroEnemigo != this)) {
+									setPosY(posY + 5);
+									//Rodear personaje
+									if (!hayChoqueHorizontalDerecha(this)&&!hayChoqueHorizontalIzquierda(this)) {
+										setPosX(posX + 5);
+										boolean t = false;
+										for (Enemigo otroEnemigo1 : a.misEnemigos) {
+											for (Barril barril1 : a.barriles) {
+												if ((hayChoqueconBarril(barril1 ) )||(hayChoqueconEnemigo(otroEnemigo1)
+														&& (otroEnemigo1 != this))){
+													setPosX(posX -5);
+													t = true;
+													break;
+													
+												}
+											}
+										if(t){
+											break;
+										}
+											
+										}
+									}
+
+									break;
+								}
+							}
+						}
+						
+					}
+
 				}
-				
+				//
+			} else {
+				if (poxProta > posX) {
+					if (!hayChoqueHorizontalIzquierda(this)) {
+						setPosX(posX + 5);
+						for (Barril barril : a.barriles) {
+							if ((hayChoqueconBarril(barril ))){
+								setPosX(posX - 5);
+								p=false;
+								//rodear barril
+								if (!hayChoqueVerticalArriba(this)) {
+									setPosY(posY - 5);
+									for (Enemigo otroEnemigo1 : a.misEnemigos) {
+										if (hayChoqueconEnemigo(otroEnemigo1)
+												&& (otroEnemigo1 != this)) {
+											setPosY(posY + 5);
+
+											break;
+										}
+									}
+								}
+								break;
+						}else{
+							
+						}
+							
+						}
+						if(p)	{
+							for (Enemigo otroEnemigo : a.misEnemigos) {
+								if (hayChoqueconEnemigo(otroEnemigo)
+										&& (otroEnemigo != this)) {
+									setPosX(posX - 5);
+									//Rodear personaje
+									if (!hayChoqueVerticalArriba(this)) {
+										setPosY(posY - 5);
+										boolean t = false;
+										for (Enemigo otroEnemigo1 : a.misEnemigos) {
+											for (Barril barril1 : a.barriles) {
+												if ((hayChoqueconBarril(barril1 ) )||(hayChoqueconEnemigo(otroEnemigo1)
+														&& (otroEnemigo1 != this))){
+													setPosY(posY + 5);
+													t = true;
+													break;
+													
+												}
+											}
+										if(t){
+											break;
+										}
+											
+										}
+									}
+
+									break;
+								}
+							}
+						
+						}
+						
+					}
+
+				} else {
+					if (!hayChoqueHorizontalDerecha(this)) {
+						setPosX(posX - 5);
+						for (Barril barril : a.barriles) {
+							if ((hayChoqueconBarril(barril ))){
+								setPosX(posX + 5);
+								p=false;
+								//Rodear barril
+								if (!hayChoqueVerticalAbajo(this)) {
+									setPosY(posY + 5);
+									for (Enemigo otroEnemigo1 : a.misEnemigos) {
+										if (hayChoqueconEnemigo(otroEnemigo1)
+												&& (otroEnemigo1 != this)) {
+											setPosY(posY - 5);
+											break;
+										}
+									}
+								}
+								break;
+						}else{
+							
+						}
+							
+						}
+						if(p)	{
+							for (Enemigo otroEnemigo : a.misEnemigos) {
+								if (hayChoqueconEnemigo(otroEnemigo)
+										&& (otroEnemigo != this)) {
+									setPosX(posX + 5);
+									//Rodear personaje
+									if (!hayChoqueVerticalAbajo(this)) {
+										setPosY(posY + 5);
+										boolean t = false;
+										for (Enemigo otroEnemigo1 : a.misEnemigos) {
+											for (Barril barril1 : a.barriles) {
+												if ((hayChoqueconBarril(barril1 ) )||(hayChoqueconEnemigo(otroEnemigo1)
+														&& (otroEnemigo1 != this))){
+													setPosY(posY - 5);
+													t = true;
+													break;
+													
+												}
+											}
+										if(t){
+											break;
+										}
+											
+										}
+									}
+									break;
+								}
+							}
+						}
+						
+					}
+
+				}
+
 			}
-			//
-		}else{
-			if(poxProta>posX){
-				if(!hayChoqueHorizontalDerecha(this)){
-					setPosX(posX+5);
-					for(Enemigo otroEnemigo: a.misEnemigos){
-						if(hayChoqueconEnemigo(otroEnemigo)&&(otroEnemigo!=this)){
-							setPosX(posX-5);
-							break;
-						}
-					}
-				}
-			
-				
-			}else{
-				if(!hayChoqueHorizontalIzquierda(this)){
-					setPosX(posX-5);
-					for(Enemigo otroEnemigo: a.misEnemigos){
-						if(hayChoqueconEnemigo(otroEnemigo)&&(otroEnemigo!=this)){
-							setPosX(posX+5);
-							break;
-						}
-					}
-				}
-			
-				
-				}
-			
+		} else {
+			// Si toca al prota
 		}
-		}else{
-			//Si toca al prota
-		}
-		}
-	
+	}
+
 }
 
 

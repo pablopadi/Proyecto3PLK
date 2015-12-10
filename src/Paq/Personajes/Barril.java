@@ -5,59 +5,30 @@ import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
 
+import Paq.Paneles.Escenario;
 import Paq.Paneles.PanelControles.Imagenmov;
 
 
 
 public class Barril {
 	
-	protected Imagenmov Imagenbarril;
-	protected Imagenmov miGraficoActual;
+	private JLabelBarril miGrafico;
 	protected double posX;  // Posición en X (horizontal)
 	protected double posY;  // Posición en Y (vertical)
 	//private boolean explotar;
 	private String nombre;
-	
-	public static final int TAMANYO_BARRIL = 70;  // píxels (igual ancho que algo)
-	public static final int RADIO_ESFERA_BARRIL = 35;  // Radio en píxels del bounding circle del coche (para choques)
-	private static final boolean DIBUJAR_ESFERA_BARRIL = true;  // Dibujado (para depuración) del bounding circle de choque del coche
-	
-	public class Imagenmov extends javax.swing.JPanel {
+	Escenario a;
+	public Barril(Escenario p){
+		miGrafico = new JLabelBarril();
+		try {
+			miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "barril.png" ).toURI().toURL() ) );
+		} catch (Exception e) {
+			System.err.println( "Error en carga de recurso: coche.png no encontrado" );
+			e.printStackTrace();
+		}
+		miGrafico.setVisible(true);
+		a = p;
 		
-		private String nombreimagen;
-	
-		public Imagenmov(String nombreimagen) {
-		this.setSize(150, 150); // se selecciona el tamaño del panel
-		this.nombreimagen= nombreimagen;
-	}
-
-	// Se crea un método cuyo parámetro debe ser un objeto Graphics
-
-	public void paint(Graphics grafico) {
-		Dimension height = getSize();
-
-		// Se selecciona la imagen que tenemos en el paquete de la //ruta
-		// del programa
-
-		ImageIcon Img = new ImageIcon(getClass()
-				.getResource(nombreimagen));
-
-		// se dibuja la imagen que tenemos en el paquete Images //dentro de
-		// un panel
-
-		grafico.drawImage(Img.getImage(), 0, 0, height.width,
-				height.height, null);
-
-		setOpaque(false);
-		super.paintComponent(grafico);
-	}
-	}
-
-	public Barril() {
-		Imagenbarril = new Imagenmov("barril.png");
-		Imagenbarril.setSize(100,70 );
-		miGraficoActual= Imagenbarril;
-		miGraficoActual.setVisible(true);
 	}
 	
 	public double getPosX() {
@@ -70,15 +41,16 @@ public class Barril {
 	public void setPosicion( double posX, double posY ) {
 		setPosX( posX );
 		setPosY( posY );
+		miGrafico.setLocation( (int)posX, (int)posY );
 	}
 	
 	public void setPosX( double posX ) {
-		miGraficoActual= Imagenbarril;
+		
 		this.posX = posX; 
 	}
 	
 	public void setPosY( double posY ) {
-		miGraficoActual= Imagenbarril;
+	
 		this.posY = posY;
 	}
 	public String getNombre() {
@@ -88,8 +60,12 @@ public class Barril {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public Imagenmov getGraficoActual() {
-		return miGraficoActual;
+	public JLabelBarril getMiGrafico() {
+		return miGrafico;
+	}
+
+	public void setMiGrafico(JLabelBarril miGrafico) {
+		this.miGrafico = miGrafico;
 	}
 
 	private boolean explosion() {

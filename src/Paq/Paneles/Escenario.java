@@ -39,9 +39,9 @@ import Paq.Personajes.Prota;
 public class Escenario extends JFrame{
 	public static Prota miProta;
 	public ArrayList<Enemigo> misEnemigos = new ArrayList<>();
+	public ArrayList<Municion> T_Municion = new ArrayList<>();
+	public ArrayList<Barril> barriles = new ArrayList<>();
 	//public Enemigo miEnemigo; // TODO Hacer array de enemigos y spawn de ellos
-	public Barril miBarril;
-	public Municion miMunicion;
 	public static JPanel panelPrincipal;
 	public JPanel panelPuntuacion;
 	private Image ImagenFondo;
@@ -53,7 +53,7 @@ public class Escenario extends JFrame{
 	public Menu menuprincipal;
 	public static HiloMovPrsonaje hilomovimiento;
 	public static HiloCrearZombis hilocrearZombis;
-	int numeroZombisRonda=6;
+	int numeroZombisRonda=5;
 	int numeroZombisActuales=0;
 	public Escenario(Menu a){
 
@@ -138,9 +138,9 @@ public class Escenario extends JFrame{
 					}
 				});
 		creaPersonaje(500, 300);
-	//	creaBarril(900,400);
+		creaBarril(600,300);
 		
-		//creaMunicion(400,500);
+		creaMunicion(400,300);
 	}
 	public void creaPersonaje( int posX, int posY ) {
 		// Crear y añadir el prota a la ventana
@@ -156,22 +156,22 @@ public class Escenario extends JFrame{
 	
 	public void creaBarril( int posX, int posY ) {
 		// Crear y añadir el barril a la ventana
-		miBarril = new Barril();
+		 Barril miBarril = new Barril(this);
 		miBarril.setPosicion( posX, posY );
-		
-		panelPrincipal.add( miBarril.getGraficoActual() );  // Añade al panel visual
-		miBarril.getGraficoActual().setLocation(posX, posY);
-		miBarril.getGraficoActual().repaint();  // Refresca el dibujado del barril
+		barriles.add(miBarril);
+		panelPrincipal.add( miBarril.getMiGrafico()) ; // Añade al panel visual
+		miBarril.getMiGrafico().setLocation(posX, posY);
+		miBarril.getMiGrafico().repaint();  // Refresca el dibujado del barril
 	}
 	
 	public void creaMunicion( int posX, int posY ) {
 		// Crear y añadir el barril a la ventana
-		miMunicion = new Municion();
+		Municion miMunicion = new Municion(this);
 		miMunicion.setPosicion( posX, posY );
-		
-		panelPrincipal.add( miMunicion.getGraficoActual() );  // Añade al panel visual
-		miMunicion.getGraficoActual().setLocation(posX, posY);
-		miMunicion.getGraficoActual().repaint();  // Refresca el dibujado del municion
+		T_Municion.add( miMunicion);
+		panelPrincipal.add( miMunicion.getMiGrafico() );  // Añade al panel visual
+		miMunicion.getMiGrafico().setLocation(posX, posY);
+		miMunicion.getMiGrafico().repaint();  // Refresca el dibujado de la municion
 	}
 	
 	public int creaEnemigo( int posX, int posY,int n) {
