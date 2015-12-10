@@ -47,14 +47,14 @@ public class Enemigo {
 	public void setPosX( double posX ) {
 		if(posX-this.posX<0){
 			try {
-				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "error.png" ).toURI().toURL() ) );
+				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "zombieIZQ.gif" ).toURI().toURL() ) );
 			} catch (Exception e) {
 				System.err.println( "Error en carga de recurso: coche.png no encontrado" );
 				e.printStackTrace();
 			}
 		}else if(posX-this.posX>0){
 			try {
-				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "error.png" ).toURI().toURL() ) );
+				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "zombieDER.gif" ).toURI().toURL() ) );
 			} catch (Exception e) {
 				System.err.println( "Error en carga de recurso: coche.png no encontrado" );
 				e.printStackTrace();
@@ -68,7 +68,7 @@ public class Enemigo {
 		if(posY-this.posY<0){
 			//arriba
 			try {
-				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "prototipo.png" ).toURI().toURL() ) );
+				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "zombieARR.gif" ).toURI().toURL() ) );
 			} catch (Exception e) {
 				System.err.println( "Error en carga de recurso: coche.png no encontrado" );
 				e.printStackTrace();
@@ -76,7 +76,7 @@ public class Enemigo {
 		}else if(posY-this.posY>0){
 			//abajo
 			try {
-				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "prototipo.png" ).toURI().toURL() ) );
+				miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "zombieABJ.gif" ).toURI().toURL() ) );
 			} catch (Exception e) {
 				System.err.println( "Error en carga de recurso: coche.png no encontrado" );
 				e.printStackTrace();
