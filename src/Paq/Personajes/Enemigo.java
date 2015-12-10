@@ -17,7 +17,7 @@ public class Enemigo {
 	protected double posX;  // Posición en X (horizontal)
 	protected double posY;  // Posición en Y (vertical)
 	Escenario a;//Escenario en el que juega
-//Metodo de imagen
+//Metodo de imagen 
 	
 	Random ran ;
 	

@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 
 public class JLabelBarril extends JLabel {
 	private static final long serialVersionUID = 1L;  // Para serialización
-	public static final int TAMANYO_BARRIL= 50;  // píxels (igual ancho que algo)
-	public static final int ANCHURA_BARRIL= 50;  // píxels (igual ancho que algo)
+	public static final int TAMANYO_BARRIL= 70;  // píxels (igual ancho que algo)
+	public static final int ANCHURA_BARRIL= 60;  // píxels (igual ancho que algo)
 	public static final int RADIO_ESFERA_BARRIL= 22;  // Radio en píxels del bounding circle del prota (para golpes)
 	private static final boolean DIBUJAR_ESFERA_BARRIL = true;  // Dibujado (para depuración) del bounding circle de choque del coche
 	
