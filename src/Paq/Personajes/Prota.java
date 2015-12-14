@@ -61,7 +61,7 @@ public class Prota extends JComponent {
 			// izquierda
 			try {
 				miGrafico.setIcon(new ImageIcon(JLabelProta.class
-						.getResource("error.png").toURI().toURL()));
+						.getResource("ProtaIZQ.gif").toURI().toURL()));
 			} catch (Exception e) {
 				System.err
 						.println("Error en carga de recurso: coche.png no encontrado");
@@ -71,7 +71,7 @@ public class Prota extends JComponent {
 			// derecha
 			try {
 				miGrafico.setIcon(new ImageIcon(JLabelProta.class
-						.getResource("error.png").toURI().toURL()));
+						.getResource("ProtaDER.gif").toURI().toURL()));
 			} catch (Exception e) {
 				System.err
 						.println("Error en carga de recurso: coche.png no encontrado");
@@ -87,7 +87,7 @@ public class Prota extends JComponent {
 			// arriba
 			try {
 				miGrafico.setIcon(new ImageIcon(JLabelProta.class
-						.getResource("prototipo.png").toURI().toURL()));
+						.getResource("ProtaARR.gif").toURI().toURL()));
 			} catch (Exception e) {
 				System.err
 						.println("Error en carga de recurso: coche.png no encontrado");
@@ -97,7 +97,7 @@ public class Prota extends JComponent {
 			// abajo
 			try {
 				miGrafico.setIcon(new ImageIcon(JLabelProta.class
-						.getResource("barril.png").toURI().toURL()));
+						.getResource("ProtaABJ.gif").toURI().toURL()));
 			} catch (Exception e) {
 				System.err
 						.println("Error en carga de recurso: coche.png no encontrado");

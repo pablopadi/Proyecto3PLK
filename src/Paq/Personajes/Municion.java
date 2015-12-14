@@ -20,7 +20,7 @@ public class Municion  {
 	public Municion(Escenario p){
 		miGrafico = new JLabelMunicion();
 		try {
-			miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "municion.jpg" ).toURI().toURL() ) );
+			miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "municion.gif" ).toURI().toURL() ) );
 		} catch (Exception e) {
 			System.err.println( "Error en carga de recurso: coche.png no encontrado" );
 			e.printStackTrace();
