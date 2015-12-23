@@ -18,7 +18,7 @@ import Paq.Paneles.PanelControles.Imagenmov;
 public class Prota extends JComponent {
 	Escenario a;// Escenario en el que juega
 
-	private JLabelProta miGrafico; // Etiqueta gráfica del coche
+	private JLabelProta miGrafico; // Etiqueta gráfica 
 	protected double posX; // Posición en X (horizontal)
 	protected double posY; // Posición en Y (vertical)
 	protected double destX; //
@@ -119,35 +119,39 @@ public class Prota extends JComponent {
 	// Movimiento
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-		if (key == e.VK_LEFT) {
+		if (key == e.VK_A) {
 			movimientos[0]=true;
 
-		} else if (key == e.VK_RIGHT) {
+		} else if (key == e.VK_D) {
 			movimientos[1]=true;
 
-		} else if (key == e.VK_UP) {
+		} else if (key == e.VK_W) {
 			movimientos[2]=true;
 
-		} else if (key == e.VK_DOWN) {
+		} else if (key == e.VK_S) {
 			movimientos[3]=true;
 		}
 
 	}
 public void keyReleased(KeyEvent e){
 	int key = e.getKeyCode();
-	if (key == e.VK_LEFT) {
+	if (key == e.VK_A) {
 		movimientos[0]=false;
 
-	} else if (key == e.VK_RIGHT) {
+	} else if (key == e.VK_D) {
 		movimientos[1]=false;
 
-	} else if (key == e.VK_UP) {
+	} else if (key == e.VK_W) {
 		movimientos[2]=false;
 	
-	} else if (key == e.VK_DOWN) {
+	} else if (key == e.VK_S) {
 		movimientos[3]=false;
 	
 	}
+}
+
+public void diparo(Bala b){
+	
 }
 
 	/**

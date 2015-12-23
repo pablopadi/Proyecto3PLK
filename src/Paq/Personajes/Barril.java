@@ -15,7 +15,7 @@ public class Barril {
 	private JLabelBarril miGrafico;
 	protected double posX;  // Posición en X (horizontal)
 	protected double posY;  // Posición en Y (vertical)
-	//private boolean explotar;
+	private boolean explotar;
 	private String nombre;
 	Escenario a;
 	public Barril(Escenario p){
