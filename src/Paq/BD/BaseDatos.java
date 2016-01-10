@@ -66,5 +66,21 @@ public class BaseDatos {
 			 e.printStackTrace();  
 		}
 	}
+	
+	public void guardarBD(){
+		
+		Statement statement;
+		
+		try {
+		statement = connection.createStatement();
+		statement.setQueryTimeout(30);  // poner timeout 30 msg 
+		statement.executeUpdate("insert into prota values(alguien,5)");
+	      
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	     
+	}
 
 }
