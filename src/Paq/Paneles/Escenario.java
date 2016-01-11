@@ -156,7 +156,7 @@ public class Escenario extends JFrame{
 	
 	public void creaBarril( int posX, int posY ) {
 		// Crear y añadir el barril a la ventana
-		 Barril miBarril = new Barril(this);
+		 Barril miBarril = new Barril(this,50,60);
 		miBarril.setPosicion( posX, posY );
 		barriles.add(miBarril);
 		panelPrincipal.add( miBarril.getMiGrafico()) ; // Añade al panel visual
@@ -166,7 +166,7 @@ public class Escenario extends JFrame{
 	
 	public void creaMunicion( int posX, int posY ) {
 		// Crear y añadir el barril a la ventana
-		Municion miMunicion = new Municion(this);
+		Municion miMunicion = new Municion(this,100,45);
 		miMunicion.setPosicion( posX, posY );
 		T_Municion.add( miMunicion);
 		panelPrincipal.add( miMunicion.getMiGrafico() );  // Añade al panel visual

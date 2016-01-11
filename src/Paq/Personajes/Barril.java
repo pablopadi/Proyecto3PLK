@@ -10,7 +10,7 @@ import Paq.Paneles.PanelControles.Imagenmov;
 
 
 
-public class Barril {
+public class Barril extends ObjetosJuego {
 	
 	private JLabelBarril miGrafico;
 	protected double posX;  // Posición en X (horizontal)
@@ -18,7 +18,8 @@ public class Barril {
 	private boolean explotar;
 	private String nombre;
 	Escenario a;
-	public Barril(Escenario p){
+	public Barril(Escenario p, double posX, double posY){
+		super(posX,posY);
 		miGrafico = new JLabelBarril();
 		try {
 			miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "barril.png" ).toURI().toURL() ) );
@@ -31,13 +32,7 @@ public class Barril {
 		
 	}
 	
-	public double getPosX() {
-		return posX;
-	}
 
-	public double getPosY() {
-		return posY;
-	}
 	public void setPosicion( double posX, double posY ) {
 		setPosX( posX );
 		setPosY( posY );

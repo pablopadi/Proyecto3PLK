@@ -8,16 +8,15 @@ import javax.swing.ImageIcon;
 import Paq.Paneles.Escenario;
 
 
-public class Municion  {
+public class Municion extends ObjetosJuego {
 	
 	private JLabelMunicion miGrafico;
-	protected double posX;  // Posición en X (horizontal)
-	protected double posY;  // Posición en Y (vertical)
 	private String nombre;
 	private Escenario a;
 	
 
-	public Municion(Escenario p){
+	public Municion(Escenario p, double posX, double posY){
+		super(posX,posY);
 		miGrafico = new JLabelMunicion();
 		try {
 			miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "municion.gif" ).toURI().toURL() ) );
@@ -30,13 +29,6 @@ public class Municion  {
 		
 	}
 	
-	public double getPosX() {
-		return posX;
-	}
-
-	public double getPosY() {
-		return posY;
-	}
 	public void setPosicion( double posX, double posY ) {
 		setPosX( posX );
 		setPosY( posY );
@@ -45,12 +37,12 @@ public class Municion  {
 	
 	public void setPosX( double posX ) {
 	
-		this.posX = posX; 
+		this.posX= posX; 
 	}
 	
 	public void setPosY( double posY ) {
 		
-		this.posY = posY;
+		this.posY= posY;
 	}
 	public String getNombre() {
 		return nombre;

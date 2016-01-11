@@ -2,13 +2,12 @@ package Paq.Personajes;
 
 import Paq.Paneles.Escenario;
 
-public class  Bala{
+public class  Bala extends ObjetosJuego{
 	private JLabelBala miGrafico;
-	protected double posX;  // Posición en X (horizontal)
-	protected double posY;  // Posición en Y (vertical)
 	Escenario a;//Escenario en el que juega
 	
-	public Bala(Escenario p){
+	public Bala(Escenario p, double posX, double posY){
+		super(posX,posY);
 		miGrafico= new JLabelBala();
 		miGrafico.setVisible(true);
 		a=p;
@@ -22,7 +21,7 @@ public class  Bala{
 		this.miGrafico = miGrafico;
 	}
 
-	public double getPosX() {
+	public double getPosX(double posX) {
 		return posX;
 	}
 
