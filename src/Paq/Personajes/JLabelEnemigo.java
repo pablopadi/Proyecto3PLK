@@ -16,9 +16,9 @@ public class JLabelEnemigo extends JLabel{
 	private static final boolean DIBUJAR_ESFERA_Enemigo = true;  // Dibujado (para depuración) del bounding circle de choque del coche
 	public JLabelEnemigo() {
 		try {
-			setIcon( new ImageIcon( JLabelProta.class.getResource( "prototipo.png" ).toURI().toURL() ) );
+			setIcon( new ImageIcon( JLabelEnemigo.class.getResource( "prototipo.png" ).toURI().toURL() ) );
 		} catch (Exception e) {
-			System.err.println( "Error en carga de recurso: coche.png no encontrado" );
+			System.err.println( "Error en carga de recurso: .png no encontrado" );
 			e.printStackTrace();
 		}
 		setBounds( 0, 0, TAMANYO_Enemigo, ANCHURA_Enemigo );

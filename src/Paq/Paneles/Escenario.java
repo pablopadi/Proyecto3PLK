@@ -180,7 +180,7 @@ public class Escenario extends JFrame{
 	public int creaEnemigo( int posX, int posY,int n) {
 		// Crear y añadir el enemigo a la ventana
 		boolean p = true;
-		 Enemigo	miEnemigo = new Enemigo(this);
+		 Enemigo	miEnemigo = new Enemigo(this, miProta);
 		miEnemigo.setPosicion( posX, posY );
 		for(Enemigo otroEnemigo : misEnemigos){
 			if(miEnemigo.hayChoqueconEnemigo(otroEnemigo) ){
