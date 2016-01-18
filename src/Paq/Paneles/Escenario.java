@@ -29,7 +29,9 @@ import javax.swing.SwingUtilities;
 
 
 
+
 import Paq.BD.BaseDatos;
+import Paq.Hilos.HiloJuego;
 import Paq.Personajes.Barril;
 import Paq.Personajes.Barril;
 import Paq.Personajes.Enemigo;
@@ -55,8 +57,15 @@ public class Escenario extends JFrame{
 	public Menu menuprincipal;
 	public static HiloMovPrsonaje hilomovimiento;
 	public static HiloCrearZombis hilocrearZombis;
+	public static HiloComprobarVidas hiloComprobarVidas;
 	int numeroZombisRonda=5;
 	int numeroZombisActuales=0;
+	
+	//vidas
+	public static JTextField vidas;
+	public JLabel etiquetaVidas;
+	int vidasProta;
+	
 	public Escenario(Menu a){
 
 		menuprincipal=a;
@@ -108,6 +117,17 @@ public class Escenario extends JFrame{
 		panelPuntuacion.add(etiquetaNombre);
 		panelPuntuacion.add(nombreJugador);
 		
+		//vidas (2)
+
+etiquetaVidas = new JLabel("Vidas: ");
+		etiquetaVidas.setForeground(Color.RED);
+		vidas = new JTextField("000");
+		vidas.setColumns(3);
+		
+panelPuntuacion.add(etiquetaVidas);
+		panelPuntuacion.add(vidas);
+		
+		
 		// Añadido para que también se gestione por teclado con el KeyListener
 		
 		panelPrincipal.addKeyListener(new KeyAdapter() {
@@ -154,6 +174,9 @@ public class Escenario extends JFrame{
 		miProta.getGrafico().setLocation(posX, posY);
 		miProta.getGrafico().repaint();  // Refresca el dibujado del prota
 	
+		//vidas(5)
+		this.vidasProta = miProta.getVidas();
+
 		
 	}
 	
@@ -211,9 +234,17 @@ public class Escenario extends JFrame{
 			escenario.hilomovimiento = escenario.new HiloMovPrsonaje();  // Sintaxis de new para clase interna
 			Thread Hilomov = new Thread( escenario.hilomovimiento );
 			Hilomov.start();
+
 			escenario.hilocrearZombis= escenario.new HiloCrearZombis();  // Sintaxis de new para clase interna
 			Thread HiloZombi = new Thread( escenario.hilocrearZombis );
-			HiloZombi.start();
+			HiloZombi.start();	
+			
+			escenario.hiloComprobarVidas = escenario.new HiloComprobarVidas();
+			Thread Hilovid = new Thread(escenario.hiloComprobarVidas);
+			Hilovid.start();
+			
+	
+		
 		} catch (Exception e) {
 			System.exit(1);  // Error anormal
 		}
@@ -254,6 +285,7 @@ public class Escenario extends JFrame{
 			}
 		}
 	}
+
 	public class HiloMovPrsonaje implements Runnable {
 		boolean sigo= true;
 		@Override
@@ -262,6 +294,18 @@ public class Escenario extends JFrame{
 			while (sigo) {	
 				//Lo que hara el hilo
 				panelPrincipal.repaint();
+
+				//vidas(4)
+				if(miProta != null){
+					vidas.setText("" + miProta.getVidas());
+					if(miProta.getVidas() == 0){
+						System.out.println("ACABA");
+						acaba();
+						System.exit(DISPOSE_ON_CLOSE);
+						
+					}
+				}
+
 				try {
 					Thread.sleep( 100 );
 					miProta.mover();
@@ -273,6 +317,8 @@ public class Escenario extends JFrame{
 				}
 			}
 		}
+		
+		
 		public void start() {
 			// TODO Auto-generated method stub
 			sigo= true;
@@ -283,6 +329,29 @@ public class Escenario extends JFrame{
 			sigo = false;
 		}
 	};
-	
+	public class HiloComprobarVidas implements Runnable{
+		boolean continuo = true;
+		@Override
+		public void run() {
+			while(continuo){
+				
+				if(miProta.getVidas() == 0){
+					fin();
+							}
+			}
+		}
+		public void start() {
+			// TODO Auto-generated method stub
+			continuo= true;
+		}
+		/** Ordena al hilo detenerse en cuanto sea posible
+		 */
+		public boolean fin() {
+			continuo = false;
+			return true;
+		}	
 
+	}
+	
 }
+

@@ -25,7 +25,7 @@ public class Prota extends JComponent {
 	protected double destY;
 	protected String nombre; // Nombre del personaje
 	protected boolean[] movimientos = new boolean[4];
-
+	public int vidas;//vidas
 	
 
 	//
@@ -35,9 +35,27 @@ public class Prota extends JComponent {
 		a = p;
 		// miGraficoActual.setBounds( 0, 0, TAMANYO_PERSONAJE, TAMANYO_PERSONAJE
 		// );
+		vidas = 3;//numero de vidas por defecto
+
 
 	}
 
+	/**
+	 * @return the vidas
+	 */
+	public int getVidas() {
+		return vidas;
+	}
+
+	/**
+	 * @param vidas the vidas to set
+	 */
+	public void setVidas(int vidas) {
+		this.vidas = vidas;
+	}
+
+	
+	
 	public double getPosX() {
 		return posX;
 	}
@@ -215,6 +233,7 @@ public void diparo(Bala b){
 						.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& miEnemigo.getPosY() - JLabelEnemigo.RADIO_ESFERA_Enemigo < this
 						.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE) {
+			this.setVidas(vidas - 1);
 			return true;
 
 		}
@@ -229,6 +248,7 @@ public void diparo(Bala b){
 						.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& miMunicion.getPosY() - JLabelMunicion.RADIO_ESFERA_MUNICION< this
 						.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE) {
+			
 			return true;
 
 		}
