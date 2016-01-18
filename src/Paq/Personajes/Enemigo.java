@@ -2,15 +2,14 @@ package Paq.Personajes;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.Random;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-
-
 import Paq.Paneles.Escenario;
-
-
 
 public class Enemigo {
 	private JLabelEnemigo miGrafico;
@@ -19,7 +18,11 @@ public class Enemigo {
 	Escenario a;//Escenario en el que juega
 //Metodo de imagen 
 	
-	Random ran ;
+	Random ran;
+	boolean arriba= false;
+	boolean abajo= false;
+	boolean derecha= false;
+	boolean izquierda= false;;
 	
 	public Enemigo(Escenario p){
 		miGrafico = new JLabelEnemigo();
@@ -400,7 +403,137 @@ public class Enemigo {
 			}
 		} else {
 			// Si toca al prota
+			this.tocado();
 		}
+	}
+	public void tocado() {
+		try {
+			Icon icono = new ImageIcon( JLabelEnemigo.class.getResource( "zombieABJ(1).gif" ).toURI().toURL() ) ;
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		boolean p = true;
+		if (abajo) {
+			System.out.println("tocado1");
+			this.setPosicion(posX, posY- 20);
+			if (hayChoqueVerticalArriba(this)) {
+				this.setPosicion(posX, posY+ 20);
+			} else {
+				for (Barril barril : a.barriles) {
+					if ((hayChoqueconBarril(barril))) {
+						this.setPosicion(posX, posY+ 20);
+						p = false;
+						break;
+					}
+				}
+				if (p = true) {
+					for (Enemigo otroEnemigo : a.misEnemigos) {
+						if (hayChoqueconEnemigo(otroEnemigo)
+								&& (otroEnemigo != this)) {
+							otroEnemigo.tocado();
+							if (hayChoqueconEnemigo(otroEnemigo)
+									&& (otroEnemigo != this)) {
+								this.setPosicion(posX, posY+ 20);
+								break;
+							}
+						}
+					}
+				}
+			}
+			
+		} else if (arriba) {
+					System.out.println("tocado2");
+					this.setPosicion(posX, posY+ 20);
+						miGrafico.setLocation((int) posX, (int) posY);
+						if (hayChoqueVerticalArriba(this)) {
+							this.setPosicion(posX, posY- 20);
+						} else {
+							for (Barril barril : a.barriles) {
+								if ((hayChoqueconBarril(barril))) {
+									this.setPosicion(posX, posY- 20);
+									p = false;
+									break;
+								}
+							}
+							if (p = true) {
+								for (Enemigo otroEnemigo : a.misEnemigos) {
+									if (hayChoqueconEnemigo(otroEnemigo)
+											&& (otroEnemigo != this)) {
+										otroEnemigo.tocado();
+										if (hayChoqueconEnemigo(otroEnemigo)
+												&& (otroEnemigo != this)) {
+											this.setPosicion(posX, posY- 20);
+											break;
+										}
+									}
+								}
+							}
+						
+					}
+
+				} else if (derecha) {
+					System.out.println("tocado3");
+					this.setPosicion(posX- 20, posY);
+						if (hayChoqueHorizontalDerecha(this)) {
+							this.setPosicion(posX+ 20, posY);
+						} else {
+							for (Barril barril : a.barriles) {
+								if ((hayChoqueconBarril(barril))) {
+									this.setPosicion(posX+ 20, posY);
+									p = false;
+									break;
+								}
+							}
+							if (p = true) {
+								for (Enemigo otroEnemigo : a.misEnemigos) {
+									if (hayChoqueconEnemigo(otroEnemigo)
+											&& (otroEnemigo != this)) {
+										otroEnemigo.tocado();
+										if (hayChoqueconEnemigo(otroEnemigo)
+												&& (otroEnemigo != this)) {
+											this.setPosicion(posX+ 20, posY);
+											break;
+										}
+									}
+								}
+							
+						}
+					}
+
+				} else if (izquierda) {
+					System.out.println("tocado4");
+					this.setPosicion(posX+ 20, posY);
+						if (hayChoqueHorizontalIzquierda(this)) {
+							this.setPosicion(posX- 20, posY);
+						} else {
+							for (Barril barril : a.barriles) {
+								if ((hayChoqueconBarril(barril))) {
+									this.setPosicion(posX- 20, posY);
+									p = false;
+									break;
+								}
+							}
+							if (p = true) {
+								for (Enemigo otroEnemigo : a.misEnemigos) {
+									if (hayChoqueconEnemigo(otroEnemigo)
+											&& (otroEnemigo != this)) {
+										otroEnemigo.tocado();
+										if (hayChoqueconEnemigo(otroEnemigo)
+												&& (otroEnemigo != this)) {
+											this.setPosicion(posX- 20, posY);
+											break;
+										}
+									}
+								}
+							}
+						}
+					
+				}
+			
 	}
 
 }
