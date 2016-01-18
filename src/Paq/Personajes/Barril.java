@@ -13,8 +13,6 @@ import Paq.Paneles.PanelControles.Imagenmov;
 public class Barril extends ObjetosJuego {
 	
 	private JLabelBarril miGrafico;
-	protected double posX;  // Posición en X (horizontal)
-	protected double posY;  // Posición en Y (vertical)
 	private boolean explotar;
 	private String nombre;
 	Escenario a;

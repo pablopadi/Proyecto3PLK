@@ -28,6 +28,8 @@ import javax.swing.SwingUtilities;
 
 
 
+
+import Paq.BD.BaseDatos;
 import Paq.Personajes.Barril;
 import Paq.Personajes.Barril;
 import Paq.Personajes.Enemigo;
@@ -137,9 +139,10 @@ public class Escenario extends JFrame{
 						
 					}
 				});
-		creaPersonaje(500, 300);
-		creaBarril(600,300);
 		
+		creaPersonaje(500, 300);
+		creaBarril(650,300);
+		creaBarril(200, 100);
 		creaMunicion(400,300);
 	}
 	public void creaPersonaje( int posX, int posY ) {
@@ -156,7 +159,7 @@ public class Escenario extends JFrame{
 	
 	public void creaBarril( int posX, int posY ) {
 		// Crear y añadir el barril a la ventana
-		 Barril miBarril = new Barril(this,50,60);
+		Barril miBarril = new Barril(this,60,45);
 		miBarril.setPosicion( posX, posY );
 		barriles.add(miBarril);
 		panelPrincipal.add( miBarril.getMiGrafico()) ; // Añade al panel visual
@@ -166,7 +169,7 @@ public class Escenario extends JFrame{
 	
 	public void creaMunicion( int posX, int posY ) {
 		// Crear y añadir el barril a la ventana
-		Municion miMunicion = new Municion(this,100,45);
+		Municion miMunicion = new Municion(this,150,50);
 		miMunicion.setPosicion( posX, posY );
 		T_Municion.add( miMunicion);
 		panelPrincipal.add( miMunicion.getMiGrafico() );  // Añade al panel visual
@@ -214,6 +217,8 @@ public class Escenario extends JFrame{
 		} catch (Exception e) {
 			System.exit(1);  // Error anormal
 		}
+		BaseDatos.crearTablaBD();
+		BaseDatos.guardarBD();
 	}
 	public class HiloCrearZombis implements Runnable {
 		boolean sigo= true;

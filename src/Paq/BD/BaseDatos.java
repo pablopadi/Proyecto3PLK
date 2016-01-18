@@ -60,14 +60,14 @@ public class BaseDatos {
 		if (statement==null) return;
 		try {
 			statement.executeUpdate("create table prota " +
-				"(nombre_pr string, vidas int");
+				"(nombre_pr string, puntuacion int");
 		} catch (SQLException e) {
 			// Si hay excepción es que la tabla ya existía (lo cual es correcto)
 			 e.printStackTrace();  
 		}
 	}
 	
-	public void guardarBD(){
+	public static void guardarBD(){
 		
 		Statement statement;
 		

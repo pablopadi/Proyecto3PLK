@@ -2,7 +2,7 @@ package Paq.Personajes;
 
 public class ObjetosJuego {
 	
-	protected static double posX; // Posición en X (horizontal)
+	protected double posX; // Posición en X (horizontal)
 	protected double posY; // Posición en Y (vertical)
 
 	public ObjetosJuego(double posX, double posY){
@@ -10,7 +10,7 @@ public class ObjetosJuego {
 		this.posY=posY;
 	}
 
-	public static double getPosX() {
+	public double getPosX() {
 		return posX;
 	}
 
