@@ -301,8 +301,7 @@ panelPuntuacion.add(etiquetaVidas);
 					if(miProta.getVidas() == 0){
 						System.out.println("ACABA");
 						acaba();
-						System.exit(DISPOSE_ON_CLOSE);
-						
+				Escenario.this.dispose();
 					}
 				}
 
