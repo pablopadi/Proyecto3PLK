@@ -16,6 +16,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -27,11 +28,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 
-
-
-
 import Paq.BD.BaseDatos;
-import Paq.Hilos.HiloJuego;
+import Paq.Hilos.HiloMusica;
+import Paq.Personajes.Bala;
 import Paq.Personajes.Barril;
 import Paq.Personajes.Barril;
 import Paq.Personajes.Enemigo;
@@ -52,20 +51,26 @@ public class Escenario extends JFrame{
 	private URL fondo;
 	public static JTextField puntuacion;
 	public JLabel etiquetapuntuacion;
+	public static JTextField municion;
+	public JLabel etiquetamunicion;
+	public static JTextField ronda;
+	public JLabel etiquetaronda;
 	public static JTextField nombreJugador;
 	public JLabel etiquetaNombre;
 	public Menu menuprincipal;
 	public static HiloMovPrsonaje hilomovimiento;
 	public static HiloCrearZombis hilocrearZombis;
+	public static HiloDisparar hilodeDisparo;
 	public static HiloComprobarVidas hiloComprobarVidas;
-	int numeroZombisRonda=5;
+	int numeroZombisRonda=12;
 	int numeroZombisActuales=0;
+	static BaseDatos basedatos= new BaseDatos();
 	
 	//vidas
-	public static JTextField vidas;
-	public JLabel etiquetaVidas;
-	int vidasProta;
-	
+		public static JTextField vidas;
+		public JLabel etiquetaVidas;
+		int vidasProta;	
+		
 	public Escenario(Menu a){
 
 		menuprincipal=a;
@@ -104,30 +109,42 @@ public class Escenario extends JFrame{
 		panelPuntuacion.setLayout(new FlowLayout());
 		
 		etiquetapuntuacion = new JLabel("Puntuacion: ");
+		etiquetamunicion = new JLabel("Municion: ");
+		etiquetaronda = new JLabel("Ronda ");
 		etiquetapuntuacion.setForeground(Color.RED);
+		etiquetamunicion.setForeground(Color.RED);
+		etiquetaronda.setForeground(Color.RED);
 		puntuacion = new JTextField("000000");
 		puntuacion.setEditable(false);
+		municion = new JTextField("15");
+		municion.setEditable(false);
+		ronda = new JTextField("1");
+		ronda.setEditable(false);
 		etiquetaNombre = a.etiquetaNombre;
 		etiquetaNombre.setForeground(Color.RED);
 		nombreJugador = a.nombreJugador;
 		nombreJugador.setEditable(false);
-		puntuacion.setColumns(20);
+		puntuacion.setColumns(10);
+		municion.setColumns(3);
+		ronda.setColumns(3);
 		panelPuntuacion.add(etiquetapuntuacion);
 		panelPuntuacion.add(puntuacion);
 		panelPuntuacion.add(etiquetaNombre);
 		panelPuntuacion.add(nombreJugador);
+		panelPuntuacion.add(etiquetamunicion);
+		panelPuntuacion.add(municion);
+		panelPuntuacion.add(etiquetaronda);
+		panelPuntuacion.add(ronda);
 		
 		//vidas (2)
 
-etiquetaVidas = new JLabel("Vidas: ");
-		etiquetaVidas.setForeground(Color.RED);
-		vidas = new JTextField("000");
-		vidas.setColumns(3);
-		
-panelPuntuacion.add(etiquetaVidas);
-		panelPuntuacion.add(vidas);
-		
-		
+		etiquetaVidas = new JLabel("Vidas: ");
+				etiquetaVidas.setForeground(Color.RED);
+				vidas = new JTextField("000");
+				vidas.setColumns(3);
+				
+		panelPuntuacion.add(etiquetaVidas);
+				panelPuntuacion.add(vidas);
 		// Añadido para que también se gestione por teclado con el KeyListener
 		
 		panelPrincipal.addKeyListener(new KeyAdapter() {
@@ -159,11 +176,17 @@ panelPuntuacion.add(etiquetaVidas);
 						
 					}
 				});
-		
 		creaPersonaje(500, 300);
-		creaBarril(650,300);
-		creaBarril(200, 100);
+		creaBarril(600,300);
+		
 		creaMunicion(400,300);
+	}
+	
+	public static String getNombreJugador() {
+		return  nombreJugador.getText();
+	}
+	public static String getPuntuacion() {
+		return  puntuacion.getText();
 	}
 	public void creaPersonaje( int posX, int posY ) {
 		// Crear y añadir el prota a la ventana
@@ -173,16 +196,14 @@ panelPuntuacion.add(etiquetaVidas);
 		panelPrincipal.add( miProta.getGrafico()) ;  // Añade al panel visual
 		miProta.getGrafico().setLocation(posX, posY);
 		miProta.getGrafico().repaint();  // Refresca el dibujado del prota
-	
 		//vidas(5)
 		this.vidasProta = miProta.getVidas();
-
 		
 	}
 	
 	public void creaBarril( int posX, int posY ) {
 		// Crear y añadir el barril a la ventana
-		Barril miBarril = new Barril(this,60,45);
+		 Barril miBarril = new Barril(this);
 		miBarril.setPosicion( posX, posY );
 		barriles.add(miBarril);
 		panelPrincipal.add( miBarril.getMiGrafico()) ; // Añade al panel visual
@@ -192,7 +213,7 @@ panelPuntuacion.add(etiquetaVidas);
 	
 	public void creaMunicion( int posX, int posY ) {
 		// Crear y añadir el barril a la ventana
-		Municion miMunicion = new Municion(this,150,50);
+		Municion miMunicion = new Municion(this);
 		miMunicion.setPosicion( posX, posY );
 		T_Municion.add( miMunicion);
 		panelPrincipal.add( miMunicion.getMiGrafico() );  // Añade al panel visual
@@ -228,28 +249,46 @@ panelPuntuacion.add(etiquetaVidas);
 		try {
 			final Escenario escenario = new Escenario(a);
 			
+			BaseDatos.initBD("C:\\Users\\USUARIO\\Desktop\\a\\git\\partida.bd");
+			BaseDatos.crearTablaBD();
 			escenario.setVisible( true );
 			panelPrincipal.requestFocus();
 			// Crea el hilo del juego
 			escenario.hilomovimiento = escenario.new HiloMovPrsonaje();  // Sintaxis de new para clase interna
 			Thread Hilomov = new Thread( escenario.hilomovimiento );
 			Hilomov.start();
-
 			escenario.hilocrearZombis= escenario.new HiloCrearZombis();  // Sintaxis de new para clase interna
 			Thread HiloZombi = new Thread( escenario.hilocrearZombis );
-			HiloZombi.start();	
-			
+			HiloZombi.start();
 			escenario.hiloComprobarVidas = escenario.new HiloComprobarVidas();
 			Thread Hilovid = new Thread(escenario.hiloComprobarVidas);
 			Hilovid.start();
-			
-	
-		
 		} catch (Exception e) {
 			System.exit(1);  // Error anormal
 		}
-		BaseDatos.crearTablaBD();
-		BaseDatos.guardarBD();
+	}
+	public class HiloComprobarVidas implements Runnable{
+		boolean continuo = true;
+		@Override
+		public void run() {
+			while(continuo){
+				
+				if(miProta.getVidas() <= 0){
+					fin();
+							}
+			}
+		}
+		public void start() {
+			// TODO Auto-generated method stub
+			continuo= true;
+		}
+		/** Ordena al hilo detenerse en cuanto sea posible
+		 */
+		public boolean fin() {
+			continuo = false;
+			return true;
+		}	
+
 	}
 	public class HiloCrearZombis implements Runnable {
 		boolean sigo= true;
@@ -279,13 +318,35 @@ panelPuntuacion.add(etiquetaVidas);
 				} catch (Exception e) {
 				}
 				if(numeroZombisActuales==numeroZombisRonda){
-					sigo= false;
+					boolean esperar = true;
+					while(esperar){
+						try {
+							Thread.sleep( 2000 );
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						if(misEnemigos.size()==0){
+ 							esperar = false;
+						}
+					}
+					int p = Integer.parseInt(Escenario.this.ronda.getText())+1;
+					Escenario.this.ronda.setText(Integer.toString(p));
+					numeroZombisRonda=numeroZombisRonda+7;
 					//Poner nueva ronda
 				}
 			}
 		}
+		public void start() {
+			// TODO Auto-generated method stub
+			sigo= true;
+		}
+		/** Ordena al hilo detenerse en cuanto sea posible
+		 */
+		public void acaba() {
+			sigo = false;
+		}
 	}
-
 	public class HiloMovPrsonaje implements Runnable {
 		boolean sigo= true;
 		@Override
@@ -294,17 +355,27 @@ panelPuntuacion.add(etiquetaVidas);
 			while (sigo) {	
 				//Lo que hara el hilo
 				panelPrincipal.repaint();
-
 				//vidas(4)
 				if(miProta != null){
 					vidas.setText("" + miProta.getVidas());
-					if(miProta.getVidas() == 0){
+					if(miProta.getVidas() <= 0){
 						System.out.println("ACABA");
+	// ****					Escenario.this.guardarBD();
 						acaba();
+						Escenario.hilocrearZombis.acaba();
+						try {
+							Thread.sleep( 1000 );
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 				Escenario.this.dispose();
+	//	***		//BaseDatos.close();
+				 PanelGameOver gameover = new PanelGameOver();
+				 gameover.setSize(1000, 600);
+				 gameover.setVisible( true );
 					}
 				}
-
 				try {
 					Thread.sleep( 100 );
 					miProta.mover();
@@ -316,8 +387,6 @@ panelPuntuacion.add(etiquetaVidas);
 				}
 			}
 		}
-		
-		
 		public void start() {
 			// TODO Auto-generated method stub
 			sigo= true;
@@ -328,29 +397,84 @@ panelPuntuacion.add(etiquetaVidas);
 			sigo = false;
 		}
 	};
-	public class HiloComprobarVidas implements Runnable{
-		boolean continuo = true;
+	public class HiloDisparar implements Runnable {
 		@Override
 		public void run() {
-			while(continuo){
-				
-				if(miProta.getVidas() == 0){
-					fin();
-							}
-			}
-		}
-		public void start() {
 			// TODO Auto-generated method stub
-			continuo= true;
-		}
-		/** Ordena al hilo detenerse en cuanto sea posible
-		 */
-		public boolean fin() {
-			continuo = false;
-			return true;
-		}	
-
+			
+				try {
+					System.out.println("pum");
+					disparo();
+					
+				} catch (Exception e) {
+				}
+		
 	}
 	
-}
+	}
+	private void disparo() {	
+		double posicionx_bala;
+		double posiciony_bala;
+		if (miProta.getN_municion() > 0) {
+			miProta.setN_municion(miProta.getN_municion()-1);
+			Escenario.this.municion.setText(Integer.toString(miProta.getN_municion()));
+		
+			if (miProta.abajo) {
+				Bala bala = new Bala(this,"balaABJ.png");
+				posicionx_bala = miProta.getPosX();
+				posiciony_bala = miProta.getPosY();
+				bala.setPosicion( posicionx_bala , posiciony_bala );
+				panelPrincipal.add(bala.getMiGrafico()); // Añade al panel
+															// visual
+				bala.getMiGrafico().setLocation((int) posicionx_bala,
+						(int) posiciony_bala);
+				bala.getMiGrafico().repaint(); // Refresca el dibujado del prota
+				bala.lanzamiento_disparo_abajo(this);
+			} else if (miProta.arriba) {
+				Bala bala = new Bala(this,"balaARR.png");
+				posicionx_bala = miProta.getPosX();
+				posiciony_bala =miProta.getPosY();
+				bala.setPosicion( posicionx_bala , posiciony_bala );
+				panelPrincipal.add(bala.getMiGrafico()); // Añade al panel
+															// visual
+				bala.getMiGrafico().setLocation((int) posicionx_bala,
+						(int) posiciony_bala);
+				bala.getMiGrafico().repaint(); // Refresca el dibujado 
+				bala.lanzamiento_disparo_arriba(this);
+			} else if (miProta.derecha) {
+				Bala bala = new Bala(this,"balaDER.png");
+				posicionx_bala = miProta.getPosX();
+				posiciony_bala = miProta.getPosY();
+				bala.setPosicion( posicionx_bala , posiciony_bala );
+				panelPrincipal.add(bala.getMiGrafico()); // Añade al panel
+															// visual
+				bala.getMiGrafico().setLocation((int) posicionx_bala,
+						(int) posiciony_bala);
+				bala.getMiGrafico().repaint(); // Refresca el dibujado 
+				bala.lanzamiento_disparo_derecha(this);
+			} else if (miProta.izquierda) {
+				Bala bala = new Bala(this,"balaIZQ.png");
+				posicionx_bala = miProta.getPosX();
+				posiciony_bala = miProta.getPosY();
+				bala.setPosicion( posicionx_bala , posiciony_bala );
+				panelPrincipal.add(bala.getMiGrafico()); // Añade al panel
+															// visual
+				bala.getMiGrafico().setLocation((int) posicionx_bala,
+						(int) posiciony_bala);
+				bala.getMiGrafico().repaint(); // Refresca el dibujado
+				bala.lanzamiento_disparo_izquierda(this);
+			}
+		}
+	}
+	public void guardarBD(){
+		
+		String sql = "insert into prota values('"+getNombreJugador()+"','"+getPuntuacion()+"')";
+		try {
+			basedatos.getStatement().executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		}
 
+}

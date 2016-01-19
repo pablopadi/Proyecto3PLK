@@ -1,18 +1,67 @@
 package Paq.Personajes;
 
-import Paq.Paneles.Escenario;
+import java.awt.Dimension;
+import java.awt.Graphics;
 
-public class  Bala extends ObjetosJuego{
-	private JLabelBala miGrafico;
-	Escenario a;//Escenario en el que juega
-	
-	public Bala(Escenario p, double posX, double posY){
-		super(posX,posY);
-		miGrafico= new JLabelBala();
+import javax.swing.ImageIcon;
+
+import Paq.Paneles.Escenario;
+import Paq.Paneles.PanelControles.Imagenmov;
+
+
+
+public class Bala {
+private JLabelBala miGrafico;
+	protected double posX;  // Posición en X (horizontal)
+	protected double posY;  // Posición en Y (vertical)
+	//private boolean explotar;
+	private String nombre;
+	Escenario a;
+	public int vida=30;
+	public Bala(Escenario p, String q){
+		miGrafico = new JLabelBala();
+		try {
+			miGrafico.setIcon( new ImageIcon( JLabelBala.class.getResource( q ).toURI().toURL() ) );
+		} catch (Exception e) {
+			System.err.println( "Error en carga de recurso: coche.png no encontrado" );
+			e.printStackTrace();
+		}
 		miGrafico.setVisible(true);
-		a=p;
+		a = p;
+		
+	}
+	
+	public double getPosX() {
+		return posX;
 	}
 
+	public double getPosY() {
+		return posY;
+	}
+	public void setPosicion( double posX, double posY ) {
+		setPosX( posX );
+		setPosY( posY );
+		miGrafico.setLocation( (int)posX, (int)posY );
+	}
+	
+	public void setPosX( double posX ) {
+		
+		this.posX = posX; 
+		miGrafico.setLocation( (int)posX, (int)posY );
+	}
+	
+	public void setPosY( double posY ) {
+	
+		this.posY = posY;
+		miGrafico.setLocation( (int)posX, (int)posY );
+	}
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 	public JLabelBala getMiGrafico() {
 		return miGrafico;
 	}
@@ -20,51 +69,155 @@ public class  Bala extends ObjetosJuego{
 	public void setMiGrafico(JLabelBala miGrafico) {
 		this.miGrafico = miGrafico;
 	}
+	public boolean hayChoqueconEnemigo(Enemigo miEnemigo) {
+		if (miEnemigo.getPosX() + JLabelEnemigo.RADIO_ESFERA_Enemigo > this
+				.getPosX() - this.miGrafico.RADIO_ESFERA_BALA
+				&& miEnemigo.getPosX() - JLabelEnemigo.RADIO_ESFERA_Enemigo < this
+						.getPosX() + this.miGrafico.RADIO_ESFERA_BALA
+				&& miEnemigo.getPosY() + JLabelEnemigo.RADIO_ESFERA_Enemigo > this
+						.getPosY() - this.miGrafico.RADIO_ESFERA_BALA
+				&& miEnemigo.getPosY() - JLabelEnemigo.RADIO_ESFERA_Enemigo < this
+						.getPosY() + this.miGrafico.RADIO_ESFERA_BALA) {
+			return true;
 
-	public double getPosX(double posX) {
-		return posX;
-	}
-
-	public void setPosX(double posX) {
-		this.posX = posX;
-	}
-
-	public double getPosY() {
-		return posY;
-	}
-
-	public void setPosY(double posY) {
-		this.posY = posY;
+		}
+		return false;
 	}
 
-	public Escenario getA() {
-		return a;
-	}
+	public boolean hayChoqueconBarril(Barril miBarril) {
+		if (miBarril.getPosX() + JLabelBarril.RADIO_ESFERA_BARRIL > this
+				.getPosX() - this.miGrafico.RADIO_ESFERA_BALA
+				&& miBarril.getPosX() - JLabelBarril.RADIO_ESFERA_BARRIL < this
+						.getPosX() + this.miGrafico.RADIO_ESFERA_BALA
+				&& miBarril.getPosY() + JLabelBarril.RADIO_ESFERA_BARRIL > this
+						.getPosY() - this.miGrafico.RADIO_ESFERA_BALA
+				&& miBarril.getPosY() - JLabelBarril.RADIO_ESFERA_BARRIL < this
+						.getPosY() + this.miGrafico.RADIO_ESFERA_BALA) {
+			return true;
 
-	public void setA(Escenario a) {
-		this.a = a;
+		}
+		return false;
 	}
-	
-	public boolean hayChoqueHorizontalIzquierda( Bala mibala) {
-		return (mibala.getPosX() > a.panelPrincipal.getWidth() - 50
-				- JLabelBala.ANCHURA_BALA / 2
-				- JLabelBala.RADIO_ESFERA_BALA);
+	public void lanzamiento_disparo_abajo(Escenario a){
+		while (vida > 0) {
+			setPosicion(posX, posY+ 5);
+			getMiGrafico().repaint(); 
+			try {
+				Thread.sleep( 30 );
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			for (Enemigo otroEnemigo : a.misEnemigos) {
+				if ((this.hayChoqueconEnemigo(otroEnemigo))) {
+					otroEnemigo.tocado();
+					vida = 0;
+					break;
+				}
+			}
+			if (vida > 0) {
+				for (Barril barril1 : a.barriles) {
+					if ((this.hayChoqueconBarril(barril1))) {
+						barril1.tocado();
+						vida = 0;
+						break;
+					}
+				}
+			}
+			vida--;
+		}
+		a.panelPrincipal.remove(this.getMiGrafico());
 	}
-
-	public boolean hayChoqueHorizontalDerecha( Bala mibala) {
-		return (mibala.getPosX() < JLabelProta.RADIO_ESFERA_PERSONAJE + 50
-				- JLabelBala.ANCHURA_BALA / 2);
+	public void lanzamiento_disparo_arriba(Escenario a){
+		while (vida > 0) {
+			setPosicion(posX, posY- 5);
+			getMiGrafico().repaint(); 
+			try {
+				Thread.sleep( 30 );
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			for (Enemigo otroEnemigo : a.misEnemigos) {
+				if ((this.hayChoqueconEnemigo(otroEnemigo))) {
+					otroEnemigo.tocado();
+					vida = 0;
+					break;
+				}
+			}
+			if (vida > 0) {
+				for (Barril barril1 : a.barriles) {
+					if ((this.hayChoqueconBarril(barril1))) {
+						barril1.tocado();
+						vida = 0;
+						break;
+					}
+				}
+			}
+			vida--;
+		}
+		a.panelPrincipal.remove(this.getMiGrafico());
 	}
-	
-	public boolean hayChoqueVerticalAbajo(Prota miProta) {
-		return (miProta.getPosY() > a.panelPrincipal.getHeight() - 50
-				- JLabelBala.TAMANYO_BALA / 2
-				- JLabelBala.RADIO_ESFERA_BALA);
+	public void lanzamiento_disparo_derecha(Escenario a){
+		while (vida > 0) {
+			setPosicion(posX+5, posY);
+			getMiGrafico().repaint(); 
+			try {
+				Thread.sleep( 30 );
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			for (Enemigo otroEnemigo : a.misEnemigos) {
+				if ((this.hayChoqueconEnemigo(otroEnemigo))) {
+					otroEnemigo.tocado();
+					vida = 0;
+					break;
+				}
+			}
+			if (vida > 0) {
+				for (Barril barril1 : a.barriles) {
+					if ((this.hayChoqueconBarril(barril1))) {
+						barril1.tocado();
+						vida = 0;
+						break;
+					}
+				}
+			}
+			vida--;
+		}
+		a.panelPrincipal.remove(this.getMiGrafico());
 	}
-
-	public boolean hayChoqueVerticalArriba(Prota miProta) {
-		return (miProta.getPosY() < JLabelProta.RADIO_ESFERA_PERSONAJE + 50
-				- JLabelBala.TAMANYO_BALA / 2);
+	public void lanzamiento_disparo_izquierda(Escenario a){
+		while (vida > 0) {
+			setPosicion(posX-5, posY);
+			getMiGrafico().repaint(); 
+			try {
+				Thread.sleep( 30 );
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			for (Enemigo otroEnemigo : a.misEnemigos) {
+				if ((this.hayChoqueconEnemigo(otroEnemigo))) {
+					otroEnemigo.tocado();
+					a.panelPrincipal.remove(this.getMiGrafico());
+					break;
+				}
+			}
+			if ((vida > 0)) {
+				for (Barril barril1 : a.barriles) {
+					if ((this.hayChoqueconBarril(barril1))) {
+						barril1.tocado();
+						a.panelPrincipal.remove(this.getMiGrafico());
+						break;
+					}
+				}
+			}
+			vida--;
+		}
+		
+			a.panelPrincipal.remove(this.getMiGrafico());
+		
 	}
-
 }

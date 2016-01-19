@@ -12,22 +12,27 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
+import Paq.Personajes.Tocable;
 import Paq.Paneles.Escenario;
+import Paq.Paneles.Escenario.HiloMovPrsonaje;
 import Paq.Paneles.PanelControles.Imagenmov;
 
-public class Prota extends JComponent {
+public class Prota extends JComponent implements Tocable {
 	Escenario a;// Escenario en el que juega
-
-	private JLabelProta miGrafico; // Etiqueta gráfica 
+	int n_municion = 15;
+	private JLabelProta miGrafico; // Etiqueta gráfica del coche
 	protected double posX; // Posición en X (horizontal)
 	protected double posY; // Posición en Y (vertical)
 	protected double destX; //
 	protected double destY;
 	protected String nombre; // Nombre del personaje
 	protected boolean[] movimientos = new boolean[4];
-	public int vidas;//vidas
-	
 
+	public boolean arriba = false;
+	public boolean abajo = false;
+	public boolean derecha = false;
+	public boolean izquierda = false;
+	public int vidas;//vidas
 	//
 	public Prota(Escenario p) {
 		miGrafico = new JLabelProta();
@@ -36,10 +41,7 @@ public class Prota extends JComponent {
 		// miGraficoActual.setBounds( 0, 0, TAMANYO_PERSONAJE, TAMANYO_PERSONAJE
 		// );
 		vidas = 3;//numero de vidas por defecto
-
-
 	}
-
 	/**
 	 * @return the vidas
 	 */
@@ -53,9 +55,6 @@ public class Prota extends JComponent {
 	public void setVidas(int vidas) {
 		this.vidas = vidas;
 	}
-
-	
-	
 	public double getPosX() {
 		return posX;
 	}
@@ -72,6 +71,14 @@ public class Prota extends JComponent {
 
 	public JLabelProta getGrafico() {
 		return miGrafico;
+	}
+
+	public int getN_municion() {
+		return n_municion;
+	}
+
+	public void setN_municion(int n_municion) {
+		this.n_municion = n_municion;
 	}
 
 	public void setPosX(double posX) {
@@ -138,39 +145,56 @@ public class Prota extends JComponent {
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		if (key == e.VK_A) {
-			movimientos[0]=true;
+			movimientos[0] = true;
+			arriba = false;
+			abajo = false;
+			derecha = false;
+			izquierda = true;
 
 		} else if (key == e.VK_D) {
-			movimientos[1]=true;
-
+			movimientos[1] = true;
+			arriba = false;
+			abajo = false;
+			derecha = true;
+			izquierda = false;
 		} else if (key == e.VK_W) {
-			movimientos[2]=true;
-
+			movimientos[2] = true;
+			arriba = true;
+			abajo = false;
+			derecha = false;
+			izquierda = false;
 		} else if (key == e.VK_S) {
-			movimientos[3]=true;
+			movimientos[3] = true;
+			arriba = false;
+			abajo = true;
+			derecha = false;
+			izquierda = false;
+		} else if (key == e.VK_SPACE) {
+			a. hilodeDisparo = a.new HiloDisparar();  // Sintaxis de new para clase interna
+			Thread HiloDisparar = new Thread( a.hilodeDisparo );
+			HiloDisparar.start();
 		}
 
 	}
-public void keyReleased(KeyEvent e){
-	int key = e.getKeyCode();
-	if (key == e.VK_A) {
-		movimientos[0]=false;
 
-	} else if (key == e.VK_D) {
-		movimientos[1]=false;
 
-	} else if (key == e.VK_W) {
-		movimientos[2]=false;
-	
-	} else if (key == e.VK_S) {
-		movimientos[3]=false;
-	
+
+	public void keyReleased(KeyEvent e) {
+		int key = e.getKeyCode();
+		if (key == e.VK_A) {
+			movimientos[0] = false;
+
+		} else if (key == e.VK_D) {
+			movimientos[1] = false;
+
+		} else if (key == e.VK_W) {
+			movimientos[2] = false;
+
+		} else if (key == e.VK_S) {
+			movimientos[3] = false;
+
+		}
 	}
-}
-
-public void diparo(Bala b){
-	
-}
 
 	/**
 	 * Calcula si hay choque en horizontal con los límites del mundo
@@ -233,12 +257,12 @@ public void diparo(Bala b){
 						.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& miEnemigo.getPosY() - JLabelEnemigo.RADIO_ESFERA_Enemigo < this
 						.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE) {
-			this.setVidas(vidas - 1);
 			return true;
 
 		}
 		return false;
 	}
+
 	public boolean hayChoqueconMunicion(Municion miMunicion) {
 		if (miMunicion.getPosX() + JLabelMunicion.RADIO_ESFERA_MUNICION > this
 				.getPosX() - this.miGrafico.RADIO_ESFERA_PERSONAJE
@@ -246,14 +270,14 @@ public void diparo(Bala b){
 						.getPosX() + this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& miMunicion.getPosY() + JLabelMunicion.RADIO_ESFERA_MUNICION > this
 						.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
-				&& miMunicion.getPosY() - JLabelMunicion.RADIO_ESFERA_MUNICION< this
+				&& miMunicion.getPosY() - JLabelMunicion.RADIO_ESFERA_MUNICION < this
 						.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE) {
-			
 			return true;
 
 		}
 		return false;
 	}
+
 	public boolean hayChoqueconBarril(Barril barril) {
 		if (barril.getPosX() + JLabelBarril.RADIO_ESFERA_BARRIL > this
 				.getPosX() - this.miGrafico.RADIO_ESFERA_PERSONAJE
@@ -261,56 +285,64 @@ public void diparo(Bala b){
 						.getPosX() + this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& barril.getPosY() + JLabelBarril.RADIO_ESFERA_BARRIL > this
 						.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
-				&& barril.getPosY() - JLabelBarril.RADIO_ESFERA_BARRIL< this
+				&& barril.getPosY() - JLabelBarril.RADIO_ESFERA_BARRIL < this
 						.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE) {
 			return true;
 
 		}
 		return false;
 	}
+
 	public void mover() {
-		if(movimientos[0]){
-			if (!hayChoqueHorizontalDerecha(this)) 
-			destX = -10;
+		if (movimientos[0]) {
+			if (!hayChoqueHorizontalDerecha(this))
+				destX = -10;
 		}
-		if(movimientos[1]){
-			if (!hayChoqueHorizontalIzquierda(this)) 
-			destX = +10;
+		if (movimientos[1]) {
+			if (!hayChoqueHorizontalIzquierda(this))
+				destX = +10;
 		}
-		if(movimientos[2]){
-			if (!hayChoqueVerticalArriba(this)) 
-			destY = -10;
+		if (movimientos[2]) {
+			if (!hayChoqueVerticalArriba(this))
+				destY = -10;
 		}
-		if(movimientos[3]){
-			if (!hayChoqueVerticalAbajo(this)) 
-			destY = +10;
+		if (movimientos[3]) {
+			if (!hayChoqueVerticalAbajo(this))
+				destY = +10;
 		}
 
-			this.setPosX(posX + destX);
-			this.setPosY(posY + destY);
-			
-			for (Municion miMunicion : a.T_Municion) {
-				if (hayChoqueconMunicion(miMunicion)) {
-					miMunicion.getMiGrafico().setVisible(false);
-					a.remove(miMunicion.getMiGrafico());
-				}
+		this.setPosX(posX + destX);
+		this.setPosY(posY + destY);
+
+		for (Municion miMunicion : a.T_Municion) {
+			if (hayChoqueconMunicion(miMunicion)) {
+				miMunicion.getMiGrafico().setVisible(false);
+				a.remove(miMunicion.getMiGrafico());
+				a.T_Municion.remove(miMunicion);
+				n_municion= n_municion+3;
 			}
-			for (Enemigo miEnemigo : a.misEnemigos) {
-				if (hayChoqueconEnemigo(miEnemigo)) {
-						this.setPosX(posX - destX);
-						this.setPosY(posY - destY);
-						break;
-				}
+		}
+		for (Enemigo miEnemigo : a.misEnemigos) {
+			if (hayChoqueconEnemigo(miEnemigo)) {
+				this.setPosX(posX - destX);
+				this.setPosY(posY - destY);
+				break;
 			}
-			for (Barril barril : a.barriles) {
-				if (hayChoqueconBarril(barril)) {
-						this.setPosX(posX - destX);
-						this.setPosY(posY - destY);
-						break;
-				}
+		}
+		for (Barril barril : a.barriles) {
+			if (hayChoqueconBarril(barril)) {
+				this.setPosX(posX - destX);
+				this.setPosY(posY - destY);
+				break;
 			}
-		
+		}
+
 		setDestX(0);
 		setDestY(0);
+	}
+
+	public void tocado() {
+		// TODO Auto-generated method stub
+		this.setVidas(vidas - 1);
 	}
 }

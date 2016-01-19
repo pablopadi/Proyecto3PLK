@@ -5,19 +5,21 @@ import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
 
+import Paq.Personajes.Tocable;
 import Paq.Paneles.Escenario;
 import Paq.Paneles.PanelControles.Imagenmov;
 
 
 
-public class Barril extends ObjetosJuego {
+public class Barril implements Tocable{
 	
 	private JLabelBarril miGrafico;
-	private boolean explotar;
+	protected double posX;  // Posición en X (horizontal)
+	protected double posY;  // Posición en Y (vertical)
+	//private boolean explotar;
 	private String nombre;
 	Escenario a;
-	public Barril(Escenario p, double posX, double posY){
-		super(posX,posY);
+	public Barril(Escenario p){
 		miGrafico = new JLabelBarril();
 		try {
 			miGrafico.setIcon( new ImageIcon( JLabelProta.class.getResource( "barril.png" ).toURI().toURL() ) );
@@ -30,7 +32,13 @@ public class Barril extends ObjetosJuego {
 		
 	}
 	
+	public double getPosX() {
+		return posX;
+	}
 
+	public double getPosY() {
+		return posY;
+	}
 	public void setPosicion( double posX, double posY ) {
 		setPosX( posX );
 		setPosY( posY );
@@ -65,6 +73,12 @@ public class Barril extends ObjetosJuego {
 		// terminar metodo explotar cuando tengamos "metodo disparar"
 		
 		return true;
+		
+	}
+
+	@Override
+	public void tocado() {
+		// TODO Auto-generated method stub
 		
 	}
 

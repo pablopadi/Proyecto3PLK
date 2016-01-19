@@ -19,7 +19,7 @@ public class JLabelBarril extends JLabel {
 	 */
 	public JLabelBarril() {
 		try {
-			setIcon( new ImageIcon( JLabelProta.class.getResource( "barril.png" ).toURI().toURL() ) );
+			setIcon( new ImageIcon( JLabelBarril.class.getResource( "barril.png" ).toURI().toURL() ) );
 		} catch (Exception e) {
 			System.err.println( "Error en carga de recurso: coche.png no encontrado" );
 			e.printStackTrace();
@@ -39,7 +39,7 @@ public class JLabelBarril extends JLabel {
 					g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);	
 			        // Dibujado de la imagen
 			        g2.drawImage( img, 0, 0, TAMANYO_BARRIL, ANCHURA_BARRIL, null );
-			        if (DIBUJAR_ESFERA_BARRIL) g2.drawOval( TAMANYO_BARRIL/2-RADIO_ESFERA_BARRIL, ANCHURA_BARRIL/2-RADIO_ESFERA_BARRIL,
-			        		RADIO_ESFERA_BARRIL*2, RADIO_ESFERA_BARRIL*2 );
+//			        if (DIBUJAR_ESFERA_BARRIL) g2.drawOval( TAMANYO_BARRIL/2-RADIO_ESFERA_BARRIL, ANCHURA_BARRIL/2-RADIO_ESFERA_BARRIL,
+//			        		RADIO_ESFERA_BARRIL*2, RADIO_ESFERA_BARRIL*2 );
 				}
 }

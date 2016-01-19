@@ -35,7 +35,7 @@ public class JLabelEnemigo extends JLabel{
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);	
         // Dibujado de la imagen
         g2.drawImage( img, 0, 0, TAMANYO_Enemigo, ANCHURA_Enemigo, null );
-        if (DIBUJAR_ESFERA_Enemigo) g2.drawOval( TAMANYO_Enemigo/2-RADIO_ESFERA_Enemigo, ANCHURA_Enemigo/2-RADIO_ESFERA_Enemigo,
-        		RADIO_ESFERA_Enemigo*2, RADIO_ESFERA_Enemigo*2 );
+//        if (DIBUJAR_ESFERA_Enemigo) g2.drawOval( TAMANYO_Enemigo/2-RADIO_ESFERA_Enemigo, ANCHURA_Enemigo/2-RADIO_ESFERA_Enemigo,
+//        		RADIO_ESFERA_Enemigo*2, RADIO_ESFERA_Enemigo*2 );
 	}
 }

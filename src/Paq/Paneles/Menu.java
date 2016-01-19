@@ -22,19 +22,20 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
 import Paq.Hilos.HiloJuego;
+import Paq.Hilos.HiloMusica;
 
 public class Menu extends JFrame {
 	public JPanel panelPrincipal;
 	public JPanel panelJugador;
 	public JPanel panelBotones;
 	public static JButton botonControles;
-	public static JButton botonOpciones;
 	public static JButton play;
 	public static JTextField nombreJugador;
 	public JLabel etiquetaNombre;
 	private Image ImagenFondo;
 	private URL fondo;
 	HiloJuego hilo;
+	static HiloMusica hilomusic = new HiloMusica("C:/Users/luis/git/Proyecto3PLK/src/MusicaJuego.mp3");
 
 	public Menu() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -73,7 +74,7 @@ public class Menu extends JFrame {
 		panelJugador.setLayout(new FlowLayout());
 		//Crear componentes
 		botonControles = new JButton("Controles");
-		botonOpciones = new JButton("Opciones");
+	
 		play = new JButton(" Play "){
 			public void paintComponent(Graphics g) {
 				URL fondoBoton = this.getClass().getResource("images.jpeg");
@@ -88,7 +89,6 @@ public class Menu extends JFrame {
 		
 		// Incluir botones
 		panelBotones.add(botonControles);
-		panelBotones.add(botonOpciones);
 		
 		panelJugador.add(etiquetaNombre );
 		panelJugador.add(nombreJugador );
@@ -104,21 +104,13 @@ public class Menu extends JFrame {
 				controles.setVisible(true);
 			}
 		});
-		botonOpciones.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// Cuando lo cliquees se ponga PARAR
-				PanelOpciones opciones = new PanelOpciones();
-				opciones.setVisible(true);
-			}
-		});
 		play.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				hilo = new HiloJuego(Menu.this);
 				hilo.run();
 				Menu.this.dispose();
+				hilomusic.parar();
 				
 				
 			}
@@ -126,8 +118,11 @@ public class Menu extends JFrame {
 		
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {	
 		Menu menu = new Menu();
 		menu.setVisible(true);
+		hilomusic.run();
+		
 	}
+	
 }

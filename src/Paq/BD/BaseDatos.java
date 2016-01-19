@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
+import Paq.Paneles.Escenario;
+
 public class BaseDatos {
 
 	private static Connection connection = null;
@@ -59,28 +62,12 @@ public class BaseDatos {
 	public static void crearTablaBD() {
 		if (statement==null) return;
 		try {
-			statement.executeUpdate("create table prota " +
-				"(nombre_pr string, puntuacion int");
+			statement.executeUpdate("create table Prota" +
+				"(nombre string, puntuacion string");
 		} catch (SQLException e) {
 			// Si hay excepción es que la tabla ya existía (lo cual es correcto)
 			 e.printStackTrace();  
 		}
-	}
-	
-	public static void guardarBD(){
-		
-		Statement statement;
-		
-		try {
-		statement = connection.createStatement();
-		statement.setQueryTimeout(30);  // poner timeout 30 msg 
-		statement.executeUpdate("insert into prota values(alguien,5)");
-	      
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	     
 	}
 
 }

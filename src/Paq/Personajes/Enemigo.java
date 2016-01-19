@@ -1,5 +1,7 @@
 package Paq.Personajes;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Random;
@@ -7,6 +9,7 @@ import java.util.Random;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import Paq.Personajes.Tocable;
 import Paq.Paneles.Escenario;
 
 public class Enemigo implements Tocable {
@@ -15,9 +18,8 @@ public class Enemigo implements Tocable {
 	protected double posX; // Posición en X (horizontal)
 	protected double posY; // Posición en Y (vertical)
 	Escenario a;// Escenario en el que juega
-	
 	// Metodo de imagen
-
+	int vida = 2;
 	Random ran;
 	boolean arriba= false;
 	boolean abajo= false;
@@ -108,7 +110,7 @@ public class Enemigo implements Tocable {
 			// abajo
 			try {
 				miGrafico.setIcon(new ImageIcon(JLabelProta.class
-						.getResource("zombieABJ.gif").toURI().toURL()));
+						.getResource("zombieABJ(1).gif").toURI().toURL()));
 			} catch (Exception e) {
 				System.err
 						.println("Error en carga de recurso: coche.png no encontrado");
@@ -454,13 +456,13 @@ public class Enemigo implements Tocable {
 			}
 		} else {
 			// Si toca al prota
-			this.tocado();
+			miProta.tocado();
 		}
 	}
 
 	public void tocado() {
 		try {
-			Icon icono = new ImageIcon( JLabelEnemigo.class.getResource( "zombieABJ.gif" ).toURI().toURL() ) ;
+			Icon icono = new ImageIcon( JLabelEnemigo.class.getResource( "zombieABJ(1).gif" ).toURI().toURL() ) ;
 		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -585,6 +587,20 @@ public class Enemigo implements Tocable {
 						}
 					
 				}
+		
+		vida--;
+		if(vida==0){
+			Municion miMunicion = new Municion(a);
+			miMunicion.setPosicion(posX, posY);
+			a.panelPrincipal.add( miMunicion.getMiGrafico() );  // Añade al panel visual
+			miMunicion.getMiGrafico().setLocation((int)posX, (int)posY);
+			a.T_Municion.add( miMunicion);
+			miMunicion.getMiGrafico().repaint(); 
+			a.panelPrincipal.remove(this.miGrafico);
+			a.misEnemigos.remove(this);
+			int puntuacion =Integer.parseInt(a.puntuacion.getText())+100;
+			a.puntuacion.setText(Integer.toString(puntuacion));
+		}
 			
 	}
 
