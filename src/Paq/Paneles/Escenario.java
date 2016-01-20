@@ -44,7 +44,7 @@ public class Escenario extends JFrame{
 	public ArrayList<Enemigo> misEnemigos = new ArrayList<>();
 	public ArrayList<Municion> T_Municion = new ArrayList<>();
 	public ArrayList<Barril> barriles = new ArrayList<>();
-	//public Enemigo miEnemigo; // TODO Hacer array de enemigos y spawn de ellos
+	
 	public static JPanel panelPrincipal;
 	public JPanel panelPuntuacion;
 	private Image ImagenFondo;
@@ -62,15 +62,17 @@ public class Escenario extends JFrame{
 	public static HiloCrearZombis hilocrearZombis;
 	public static HiloDisparar hilodeDisparo;
 	public static HiloComprobarVidas hiloComprobarVidas;
-	int numeroZombisRonda=12;
-	int numeroZombisActuales=0;
+
 	static BaseDatos basedatos= new BaseDatos();
 	
+	int numeroZombisRonda=12;
+	int numeroZombisActuales=0;
+
 	//vidas
-		public static JTextField vidas;
-		public JLabel etiquetaVidas;
-		int vidasProta;	
-		
+	public static JTextField vidas;
+	public JLabel etiquetaVidas;
+	int vidasProta;	
+
 	public Escenario(Menu a){
 
 		menuprincipal=a;
@@ -78,21 +80,19 @@ public class Escenario extends JFrame{
 		this.setLayout(new BorderLayout());
 		//No se podra cambiar el tamaño de la ventana
 		this.setResizable(false); 
-		
+
 		//Codigo para centrar la ventana
-		
+
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] gs = ge.getScreenDevices();
 		Dimension d = gs[0].getDefaultConfiguration().getBounds().getSize();
 		int x = (int) d.getWidth()/4;
 		int y = (int) d.getHeight()/4;
 		this.setBounds(4*x - 2*(x + 250) , 4*y - 2*(y + 200) , (1920 + 200) /2, (1080 + 400)/2);
-		//tamaño antiguo 1000*600
-		
-		
-		
+
 		fondo = this.getClass().getResource("ImgEscenario.png");
 		ImagenFondo = new ImageIcon(fondo).getImage();
+		
 		// Creo los paneles
 
 		panelPrincipal = new JPanel() {
@@ -107,26 +107,36 @@ public class Escenario extends JFrame{
 		panelPuntuacion.setBackground(Color.BLACK);
 		this.add(panelPuntuacion, BorderLayout.NORTH);
 		panelPuntuacion.setLayout(new FlowLayout());
-		
+
+
+		//Etiquetas
 		etiquetapuntuacion = new JLabel("Puntuacion: ");
 		etiquetamunicion = new JLabel("Municion: ");
 		etiquetaronda = new JLabel("Ronda ");
 		etiquetapuntuacion.setForeground(Color.RED);
 		etiquetamunicion.setForeground(Color.RED);
 		etiquetaronda.setForeground(Color.RED);
+		etiquetaNombre = a.etiquetaNombre;
+		etiquetaNombre.setForeground(Color.RED);
+		etiquetaVidas = new JLabel("Vidas: ");
+		etiquetaVidas.setForeground(Color.RED);
+
+		//Cuadros de texto
 		puntuacion = new JTextField("000000");
 		puntuacion.setEditable(false);
 		municion = new JTextField("15");
 		municion.setEditable(false);
 		ronda = new JTextField("1");
 		ronda.setEditable(false);
-		etiquetaNombre = a.etiquetaNombre;
-		etiquetaNombre.setForeground(Color.RED);
 		nombreJugador = a.nombreJugador;
 		nombreJugador.setEditable(false);
 		puntuacion.setColumns(10);
 		municion.setColumns(3);
 		ronda.setColumns(3);
+		vidas = new JTextField("000");
+		vidas.setColumns(3);
+
+		//Añadir a panel		
 		panelPuntuacion.add(etiquetapuntuacion);
 		panelPuntuacion.add(puntuacion);
 		panelPuntuacion.add(etiquetaNombre);
@@ -135,85 +145,92 @@ public class Escenario extends JFrame{
 		panelPuntuacion.add(municion);
 		panelPuntuacion.add(etiquetaronda);
 		panelPuntuacion.add(ronda);
-		
-		//vidas (2)
-
-		etiquetaVidas = new JLabel("Vidas: ");
-				etiquetaVidas.setForeground(Color.RED);
-				vidas = new JTextField("000");
-				vidas.setColumns(3);
-				
 		panelPuntuacion.add(etiquetaVidas);
-				panelPuntuacion.add(vidas);
+		panelPuntuacion.add(vidas);
+
+
+
 		// Añadido para que también se gestione por teclado con el KeyListener
-		
+
 		panelPrincipal.addKeyListener(new KeyAdapter() {
-			
+
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				// TODO Auto-generated method stub
 				miProta.keyReleased(arg0);
-				
+
 			}
-			
+
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				// TODO Auto-generated method stub
 				miProta.keyPressed(arg0);
-				
-				
+
+
 			}
 		});
-		
-		
+
+
 		panelPrincipal.setFocusable(true);
 		panelPrincipal.requestFocus();
 		panelPrincipal.addFocusListener( new FocusAdapter() {
-					@Override
-					public void focusLost(FocusEvent e) {
-						System.out.println("Foco: "+ Escenario.this.getFocusOwner());
-						panelPrincipal.requestFocus();
-						
-					}
-				});
+			@Override
+			public void focusLost(FocusEvent e) {
+			//	System.out.println("Foco: "+ Escenario.this.getFocusOwner());
+				panelPrincipal.requestFocus();
+
+			}
+		});
+		
+		//Creacion de objetos
 		creaPersonaje(500, 300);
 		creaBarril(700,300);
 		creaBarril(200,300);
 		creaBarril(450,150);
 		creaBarril(450,500);
-		
 		creaMunicion(400,300);
 	}
-	
+
 	public static String getNombreJugador() {
 		return  nombreJugador.getText();
 	}
 	public static String getPuntuacion() {
 		return  puntuacion.getText();
 	}
+	/*Metodo para crear personaje
+	 * @param posX Posicion en X
+	 * @param posY Posicion en Y
+	 */
 	public void creaPersonaje( int posX, int posY ) {
 		// Crear y añadir el prota a la ventana
 		miProta = new Prota(this);
 		miProta.setPosicion( posX, posY );
-		
+
 		panelPrincipal.add( miProta.getGrafico()) ;  // Añade al panel visual
 		miProta.getGrafico().setLocation(posX, posY);
 		miProta.getGrafico().repaint();  // Refresca el dibujado del prota
 		//vidas(5)
 		this.vidasProta = miProta.getVidas();
-		
+
 	}
-	
+	/*Metodo para crear barril
+	 * @param posX Posicion en X
+	 * @param posY Posicion en Y
+	 */
 	public void creaBarril( int posX, int posY ) {
 		// Crear y añadir el barril a la ventana
-		 Barril miBarril = new Barril(this);
+		Barril miBarril = new Barril(this);
 		miBarril.setPosicion( posX, posY );
 		barriles.add(miBarril);
 		panelPrincipal.add( miBarril.getMiGrafico()) ; // Añade al panel visual
 		miBarril.getMiGrafico().setLocation(posX, posY);
 		miBarril.getMiGrafico().repaint();  // Refresca el dibujado del barril
 	}
-	
+
+	/*Metodo para crear municion
+	 * @param posX Posicion en X
+	 * @param posY Posicion en Y
+	 */
 	public void creaMunicion( int posX, int posY ) {
 		// Crear y añadir el barril a la ventana
 		Municion miMunicion = new Municion(this);
@@ -223,17 +240,22 @@ public class Escenario extends JFrame{
 		miMunicion.getMiGrafico().setLocation(posX, posY);
 		miMunicion.getMiGrafico().repaint();  // Refresca el dibujado de la municion
 	}
-	
+
+	/*Metodo para crear enemigos
+	 * @param posX Posicion en X
+	 * @param posY Posicion en Y
+	 * @param n Numero actual de zombies
+	 */
 	public int creaEnemigo( int posX, int posY,int n) {
 		// Crear y añadir el enemigo a la ventana
 		boolean p = true;
-		 Enemigo	miEnemigo = new Enemigo(this, miProta);
+		Enemigo	miEnemigo = new Enemigo(this, miProta);
 		miEnemigo.setPosicion( posX, posY );
 		for(Enemigo otroEnemigo : misEnemigos){
 			if(miEnemigo.hayChoqueconEnemigo(otroEnemigo) ){
 				p=false;
 			}else{
-			
+
 			}
 		}
 		if(p==true){
@@ -243,15 +265,16 @@ public class Escenario extends JFrame{
 			miEnemigo.getGrafico().repaint();  // Refresca el dibujado del prota
 			return n+1;
 		}
-	return n;
+		return n;
 	}
-	
-	
+
+
 	public static void main(Menu a) {
-	
+
 		try {
 			final Escenario escenario = new Escenario(a);
-			
+
+			//TODO Cambiar segun este localizado el archivo
 			BaseDatos.initBD("C:\\Users\\USUARIO\\Desktop\\a\\git\\partida.bd");
 			BaseDatos.crearTablaBD();
 			escenario.setVisible( true );
@@ -270,15 +293,16 @@ public class Escenario extends JFrame{
 			System.exit(1);  // Error anormal
 		}
 	}
+	//Hilo que comprueba si el prota ha muerto(si tiene 0 vidas)
 	public class HiloComprobarVidas implements Runnable{
 		boolean continuo = true;
 		@Override
 		public void run() {
 			while(continuo){
-				
+
 				if(miProta.getVidas() <= 0){
 					fin();
-							}
+				}
 			}
 		}
 		public void start() {
@@ -293,6 +317,7 @@ public class Escenario extends JFrame{
 		}	
 
 	}
+	//Hilo que crea enemigos por rondas
 	public class HiloCrearZombis implements Runnable {
 		boolean sigo= true;
 		@Override
@@ -306,18 +331,18 @@ public class Escenario extends JFrame{
 					double ran =  Math.random();
 					if(ran>0.75){
 						numeroZombisActuales=creaEnemigo(50, 300,	numeroZombisActuales);
-					
+
 					}else if(ran>0.5){
 						numeroZombisActuales=creaEnemigo(50, 260,numeroZombisActuales);
-						
+
 					}else if(ran>0.25){
 						numeroZombisActuales=creaEnemigo(950, 300,numeroZombisActuales);
-						
+
 					}else{
 						numeroZombisActuales=creaEnemigo(950, 260,numeroZombisActuales);
 						//
 					}
-					
+
 				} catch (Exception e) {
 				}
 				if(numeroZombisActuales==numeroZombisRonda){
@@ -330,7 +355,7 @@ public class Escenario extends JFrame{
 							e.printStackTrace();
 						}
 						if(misEnemigos.size()==0){
- 							esperar = false;
+							esperar = false;
 						}
 					}
 					int p = Integer.parseInt(Escenario.this.ronda.getText())+1;
@@ -350,6 +375,7 @@ public class Escenario extends JFrame{
 			sigo = false;
 		}
 	}
+	//Hilo que permite que el prota se mueva y con el que se acaba el juego
 	public class HiloMovPrsonaje implements Runnable {
 		boolean sigo= true;
 		@Override
@@ -363,7 +389,7 @@ public class Escenario extends JFrame{
 					vidas.setText("" + miProta.getVidas());
 					if(miProta.getVidas() <= 0){
 						System.out.println("ACABA");
-	// ****					Escenario.this.guardarBD();
+						// ****					Escenario.this.guardarBD();
 						acaba();
 						Escenario.hilocrearZombis.acaba();
 						try {
@@ -372,20 +398,20 @@ public class Escenario extends JFrame{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-				Escenario.this.dispose();
-	//	***		//BaseDatos.close();
-				 PanelGameOver gameover = new PanelGameOver();
-				 gameover.setSize(1000, 600);
-				 gameover.setVisible( true );
+						Escenario.this.dispose();
+						//	***		//BaseDatos.close();
+						PanelGameOver gameover = new PanelGameOver();
+						gameover.setSize(1000, 600);
+						gameover.setVisible( true );
 					}
 				}
 				try {
 					Thread.sleep( 100 );
 					miProta.mover();
 					for(Enemigo miEnemigo : misEnemigos){
-					miEnemigo.mover();
+						miEnemigo.mover();
 					}
-					
+
 				} catch (Exception e) {
 				}
 			}
@@ -400,35 +426,38 @@ public class Escenario extends JFrame{
 			sigo = false;
 		}
 	};
+	
+	//Hilo que permite disparar llamando al metodo disparo()
 	public class HiloDisparar implements Runnable {
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
-			
-				try {
-					System.out.println("pum");
-					disparo();
-					
-				} catch (Exception e) {
-				}
-		
+
+			try {
+				System.out.println("pum");
+				disparo();
+
+			} catch (Exception e) {
+			}
+
+		}
+
 	}
-	
-	}
+	//Metodo que genera balas cada vez que se pulsa la barra espaciadora
 	private void disparo() {	
 		double posicionx_bala;
 		double posiciony_bala;
 		if (miProta.getN_municion() > 0) {
 			miProta.setN_municion(miProta.getN_municion()-1);
 			Escenario.this.municion.setText(Integer.toString(miProta.getN_municion()));
-		
+
 			if (miProta.abajo) {
 				Bala bala = new Bala(this,"balaABJ.png");
 				posicionx_bala = miProta.getPosX();
 				posiciony_bala = miProta.getPosY();
 				bala.setPosicion( posicionx_bala , posiciony_bala );
 				panelPrincipal.add(bala.getMiGrafico()); // Añade al panel
-															// visual
+				// visual
 				bala.getMiGrafico().setLocation((int) posicionx_bala,
 						(int) posiciony_bala);
 				bala.getMiGrafico().repaint(); // Refresca el dibujado del prota
@@ -439,7 +468,7 @@ public class Escenario extends JFrame{
 				posiciony_bala =miProta.getPosY();
 				bala.setPosicion( posicionx_bala , posiciony_bala );
 				panelPrincipal.add(bala.getMiGrafico()); // Añade al panel
-															// visual
+				// visual
 				bala.getMiGrafico().setLocation((int) posicionx_bala,
 						(int) posiciony_bala);
 				bala.getMiGrafico().repaint(); // Refresca el dibujado 
@@ -450,7 +479,7 @@ public class Escenario extends JFrame{
 				posiciony_bala = miProta.getPosY();
 				bala.setPosicion( posicionx_bala , posiciony_bala );
 				panelPrincipal.add(bala.getMiGrafico()); // Añade al panel
-															// visual
+				// visual
 				bala.getMiGrafico().setLocation((int) posicionx_bala,
 						(int) posiciony_bala);
 				bala.getMiGrafico().repaint(); // Refresca el dibujado 
@@ -461,7 +490,7 @@ public class Escenario extends JFrame{
 				posiciony_bala = miProta.getPosY();
 				bala.setPosicion( posicionx_bala , posiciony_bala );
 				panelPrincipal.add(bala.getMiGrafico()); // Añade al panel
-															// visual
+				// visual
 				bala.getMiGrafico().setLocation((int) posicionx_bala,
 						(int) posiciony_bala);
 				bala.getMiGrafico().repaint(); // Refresca el dibujado
@@ -469,8 +498,10 @@ public class Escenario extends JFrame{
 			}
 		}
 	}
+	
+	//Metodo para guardar en la base de datos //TODO No funciona aun
 	public void guardarBD(){
-		
+
 		String sql = "insert into prota values('"+getNombreJugador()+"','"+getPuntuacion()+"')";
 		try {
 			basedatos.getStatement().executeUpdate(sql);
@@ -478,6 +509,6 @@ public class Escenario extends JFrame{
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		}
-		}
+	}
 
 }
