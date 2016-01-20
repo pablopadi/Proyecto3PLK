@@ -177,7 +177,10 @@ public class Escenario extends JFrame{
 					}
 				});
 		creaPersonaje(500, 300);
-		creaBarril(600,300);
+		creaBarril(700,300);
+		creaBarril(200,300);
+		creaBarril(450,150);
+		creaBarril(450,500);
 		
 		creaMunicion(400,300);
 	}
