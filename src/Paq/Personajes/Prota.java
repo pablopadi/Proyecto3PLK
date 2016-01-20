@@ -1,21 +1,11 @@
 package Paq.Personajes;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import Paq.Personajes.Tocable;
 import Paq.Paneles.Escenario;
-import Paq.Paneles.Escenario.HiloMovPrsonaje;
-import Paq.Paneles.PanelControles.Imagenmov;
 
 public class Prota extends JComponent implements Tocable {
 	Escenario a;// Escenario en el que juega
@@ -33,7 +23,7 @@ public class Prota extends JComponent implements Tocable {
 	public boolean derecha = false;
 	public boolean izquierda = false;
 	public int vidas;//vidas
-	//
+
 	public Prota(Escenario p) {
 		miGrafico = new JLabelProta();
 		miGrafico.setVisible(true);
@@ -88,8 +78,6 @@ public class Prota extends JComponent implements Tocable {
 				miGrafico.setIcon(new ImageIcon(JLabelProta.class
 						.getResource("ProtaIZQ.gif").toURI().toURL()));
 			} catch (Exception e) {
-				System.err
-						.println("Error en carga de recurso: coche.png no encontrado");
 				e.printStackTrace();
 			}
 		} else if (posX - this.posX > 0) {
@@ -98,8 +86,6 @@ public class Prota extends JComponent implements Tocable {
 				miGrafico.setIcon(new ImageIcon(JLabelProta.class
 						.getResource("ProtaDER.gif").toURI().toURL()));
 			} catch (Exception e) {
-				System.err
-						.println("Error en carga de recurso: coche.png no encontrado");
 				e.printStackTrace();
 			}
 		}
@@ -114,8 +100,6 @@ public class Prota extends JComponent implements Tocable {
 				miGrafico.setIcon(new ImageIcon(JLabelProta.class
 						.getResource("ProtaARR.gif").toURI().toURL()));
 			} catch (Exception e) {
-				System.err
-						.println("Error en carga de recurso: coche.png no encontrado");
 				e.printStackTrace();
 			}
 		} else if (posY - this.posY > 0) {
@@ -124,8 +108,6 @@ public class Prota extends JComponent implements Tocable {
 				miGrafico.setIcon(new ImageIcon(JLabelProta.class
 						.getResource("ProtaABJ.gif").toURI().toURL()));
 			} catch (Exception e) {
-				System.err
-						.println("Error en carga de recurso: coche.png no encontrado");
 				e.printStackTrace();
 			}
 		}
@@ -141,7 +123,7 @@ public class Prota extends JComponent implements Tocable {
 		this.nombre = nombre;
 	}
 
-	// Movimiento
+	// Movimiento(WASD)
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		if (key == e.VK_A) {
@@ -199,8 +181,6 @@ public class Prota extends JComponent implements Tocable {
 	/**
 	 * Calcula si hay choque en horizontal con los límites del mundo
 	 * 
-	 * @param coche
-	 *            Coche cuyo choque se comprueba con su posición actual
 	 * @return true si hay choque horizontal, false si no lo hay
 	 */
 	public boolean hayChoqueHorizontalIzquierda(Prota miProta) {
@@ -217,8 +197,6 @@ public class Prota extends JComponent implements Tocable {
 	/**
 	 * Calcula si hay choque en vertical con los límites del mundo
 	 * 
-	 * @param coche
-	 *            Coche cuyo choque se comprueba con su posición actual
 	 * @return true si hay choque vertical, false si no lo hay
 	 */
 	public boolean hayChoqueVerticalAbajo(Prota miProta) {
@@ -248,51 +226,52 @@ public class Prota extends JComponent implements Tocable {
 		this.destY = destY;
 	}
 
+	//Metodo que detecta si el prota colisiona con un enemigo
 	public boolean hayChoqueconEnemigo(Enemigo miEnemigo) {
 		if (miEnemigo.getPosX() + JLabelEnemigo.RADIO_ESFERA_Enemigo > this
 				.getPosX() - this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& miEnemigo.getPosX() - JLabelEnemigo.RADIO_ESFERA_Enemigo < this
-						.getPosX() + this.miGrafico.RADIO_ESFERA_PERSONAJE
+				.getPosX() + this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& miEnemigo.getPosY() + JLabelEnemigo.RADIO_ESFERA_Enemigo > this
-						.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
+				.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& miEnemigo.getPosY() - JLabelEnemigo.RADIO_ESFERA_Enemigo < this
-						.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE) {
+				.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE) {
 			return true;
 
 		}
 		return false;
 	}
-
+	//Metodo que detecta si el prota colisiona con municion
 	public boolean hayChoqueconMunicion(Municion miMunicion) {
 		if (miMunicion.getPosX() + JLabelMunicion.RADIO_ESFERA_MUNICION > this
 				.getPosX() - this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& miMunicion.getPosX() - JLabelMunicion.RADIO_ESFERA_MUNICION < this
-						.getPosX() + this.miGrafico.RADIO_ESFERA_PERSONAJE
+				.getPosX() + this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& miMunicion.getPosY() + JLabelMunicion.RADIO_ESFERA_MUNICION > this
-						.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
+				.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& miMunicion.getPosY() - JLabelMunicion.RADIO_ESFERA_MUNICION < this
-						.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE) {
+				.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE) {
 			return true;
 
 		}
 		return false;
 	}
-
+	//Metodo que detecta si el prota colisiona con un barril
 	public boolean hayChoqueconBarril(Barril barril) {
 		if (barril.getPosX() + JLabelBarril.RADIO_ESFERA_BARRIL > this
 				.getPosX() - this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& barril.getPosX() - JLabelBarril.RADIO_ESFERA_BARRIL < this
-						.getPosX() + this.miGrafico.RADIO_ESFERA_PERSONAJE
+				.getPosX() + this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& barril.getPosY() + JLabelBarril.RADIO_ESFERA_BARRIL > this
-						.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
+				.getPosY() - this.miGrafico.RADIO_ESFERA_PERSONAJE
 				&& barril.getPosY() - JLabelBarril.RADIO_ESFERA_BARRIL < this
-						.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE) {
+				.getPosY() + this.miGrafico.RADIO_ESFERA_PERSONAJE) {
 			return true;
 
 		}
 		return false;
 	}
-
+	//Metodo que permite moverse y comprueba si hay choques
 	public void mover() {
 		if (movimientos[0]) {
 			if (!hayChoqueHorizontalDerecha(this))
@@ -340,7 +319,7 @@ public class Prota extends JComponent implements Tocable {
 		setDestX(0);
 		setDestY(0);
 	}
-
+	//Metodo para que el prota pierda vidas
 	public void tocado() {
 		// TODO Auto-generated method stub
 		this.setVidas(vidas - 1);

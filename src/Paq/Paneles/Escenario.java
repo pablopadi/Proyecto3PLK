@@ -12,26 +12,16 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Random;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-
-
 import Paq.BD.BaseDatos;
-import Paq.Hilos.HiloMusica;
 import Paq.Personajes.Bala;
-import Paq.Personajes.Barril;
 import Paq.Personajes.Barril;
 import Paq.Personajes.Enemigo;
 import Paq.Personajes.Municion;
@@ -63,7 +53,7 @@ public class Escenario extends JFrame{
 	public static HiloDisparar hilodeDisparo;
 	public static HiloComprobarVidas hiloComprobarVidas;
 
-	static BaseDatos basedatos= new BaseDatos();
+	private static BaseDatos basedatos= new BaseDatos();
 	
 	int numeroZombisRonda=12;
 	int numeroZombisActuales=0;
@@ -355,6 +345,7 @@ public class Escenario extends JFrame{
 							e.printStackTrace();
 						}
 						if(misEnemigos.size()==0){
+							Escenario.this.repaint();
 							esperar = false;
 						}
 					}
@@ -389,7 +380,7 @@ public class Escenario extends JFrame{
 					vidas.setText("" + miProta.getVidas());
 					if(miProta.getVidas() <= 0){
 						System.out.println("ACABA");
-						// ****					Escenario.this.guardarBD();
+										Escenario.this.guardarBD();
 						acaba();
 						Escenario.hilocrearZombis.acaba();
 						try {
@@ -399,7 +390,7 @@ public class Escenario extends JFrame{
 							e.printStackTrace();
 						}
 						Escenario.this.dispose();
-						//	***		//BaseDatos.close();
+						BaseDatos.close();
 						PanelGameOver gameover = new PanelGameOver();
 						gameover.setSize(1000, 600);
 						gameover.setVisible( true );
@@ -504,10 +495,12 @@ public class Escenario extends JFrame{
 
 		String sql = "insert into prota values('"+getNombreJugador()+"','"+getPuntuacion()+"')";
 		try {
-			basedatos.getStatement().executeUpdate(sql);
+			basedatos.
+			getStatement().
+			executeUpdate(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 

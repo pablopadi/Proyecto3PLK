@@ -8,7 +8,6 @@ import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -19,7 +18,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 
 import Paq.Hilos.HiloJuego;
 import Paq.Hilos.HiloMusica;
@@ -35,6 +33,8 @@ public class Menu extends JFrame {
 	private Image ImagenFondo;
 	private URL fondo;
 	HiloJuego hilo;
+
+	//TODO Cambiar dependiendo de donde este el archivo localizado
 	static HiloMusica hilomusic = new HiloMusica("C:/Users/luis/git/Proyecto3PLK/src/MusicaJuego.mp3");
 
 	public Menu() {
@@ -50,7 +50,7 @@ public class Menu extends JFrame {
 		int x = (int) d.getWidth()/4;
 		int y = (int) d.getHeight()/4;
 		this.setBounds(4*x - 3*(x ) - 50 , 4*y - 2*(y + 200) , (1920 + 200) /2, (1080 + 400)/2);
-	
+
 		fondo = this.getClass().getResource("boxhead-zombie-wars.png");
 		ImagenFondo = new ImageIcon(fondo).getImage();
 		// Creo los paneles
@@ -67,14 +67,14 @@ public class Menu extends JFrame {
 		panelBotones.setBackground(Color.BLACK);
 		this.add(panelBotones, BorderLayout.SOUTH);
 		panelBotones.setLayout(new FlowLayout());
-		
+
 		panelJugador = new JPanel();
 		panelJugador.setBackground(Color.RED);
 		this.add(panelJugador, BorderLayout.NORTH);
 		panelJugador.setLayout(new FlowLayout());
 		//Crear componentes
 		botonControles = new JButton("Controles");
-	
+
 		play = new JButton(" Play "){
 			public void paintComponent(Graphics g) {
 				URL fondoBoton = this.getClass().getResource("images.jpeg");
@@ -86,15 +86,15 @@ public class Menu extends JFrame {
 		etiquetaNombre = new JLabel("Nombre");
 		nombreJugador = new JTextField();
 		nombreJugador.setColumns(20);
-		
+
 		// Incluir botones
 		panelBotones.add(botonControles);
-		
+
 		panelJugador.add(etiquetaNombre );
 		panelJugador.add(nombreJugador );
 		panelPrincipal.add(play);
 		play.setLocation((this.getWidth()/2 - 10)-(play.getWidth()/2),(this.getHeight()/2)+200);
-		
+
 		botonControles.addActionListener(new ActionListener() {
 
 			@Override
@@ -111,18 +111,18 @@ public class Menu extends JFrame {
 				hilo.run();
 				Menu.this.dispose();
 				hilomusic.parar();
-				
-				
+
+
 			}
 		});
-		
+
 	}
 
 	public static void main(String[] args) {	
 		Menu menu = new Menu();
 		menu.setVisible(true);
 		hilomusic.run();
-		
+
 	}
-	
+
 }

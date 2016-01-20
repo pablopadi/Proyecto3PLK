@@ -1,7 +1,4 @@
 package Paq.Personajes;
-
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Random;
@@ -25,13 +22,17 @@ public class Enemigo implements Tocable {
 	boolean abajo= false;
 	boolean derecha= false;
 	boolean izquierda= false;
+
+	/*
+	 * Metodo para crear enemigos
+	 * @param p Escenario en el que va a estar el enemigo
+	 * @param miprota Protagonista del juego(para que pueda seguirlo)
+	 */
 	public Enemigo(Escenario p, Prota miprota) {
 		miProta = miprota;
 		miGrafico = new JLabelEnemigo();
 		miGrafico.setVisible(true);
 		a = p;
-		// miGraficoActual.setBounds( 0, 0, TAMANYO_PERSONAJE, TAMANYO_PERSONAJE
-		// );
 
 	}
 
@@ -54,22 +55,20 @@ public class Enemigo implements Tocable {
 	}
 
 	public void setPosX(double posX) {
-	if(this.posX>posX){
-		derecha = false;
-		izquierda = true;
-	}else{
-		derecha = true;
-		izquierda = false;
-	}
-	abajo = false;
-	arriba = false;
+		if(this.posX>posX){
+			derecha = false;
+			izquierda = true;
+		}else{
+			derecha = true;
+			izquierda = false;
+		}
+		abajo = false;
+		arriba = false;
 		if (posX - this.posX < 0) {
 			try {
 				miGrafico.setIcon(new ImageIcon(JLabelProta.class
 						.getResource("zombieIZQ.gif").toURI().toURL()));
 			} catch (Exception e) {
-				System.err
-						.println("Error en carga de recurso: png no encontrado");
 				e.printStackTrace();
 			}
 		} else if (posX - this.posX > 0) {
@@ -77,8 +76,6 @@ public class Enemigo implements Tocable {
 				miGrafico.setIcon(new ImageIcon(JLabelProta.class
 						.getResource("zombieDER.gif").toURI().toURL()));
 			} catch (Exception e) {
-				System.err
-						.println("Error en carga de recurso: png no encontrado");
 				e.printStackTrace();
 			}
 		}
@@ -102,8 +99,6 @@ public class Enemigo implements Tocable {
 				miGrafico.setIcon(new ImageIcon(JLabelProta.class
 						.getResource("zombieARR.gif").toURI().toURL()));
 			} catch (Exception e) {
-				System.err
-						.println("Error en carga de recurso: png no encontrado");
 				e.printStackTrace();
 			}
 		} else if (posY - this.posY > 0) {
@@ -112,8 +107,6 @@ public class Enemigo implements Tocable {
 				miGrafico.setIcon(new ImageIcon(JLabelProta.class
 						.getResource("zombieABJ(1).gif").toURI().toURL()));
 			} catch (Exception e) {
-				System.err
-						.println("Error en carga de recurso: coche.png no encontrado");
 				e.printStackTrace();
 			}
 		}
@@ -161,11 +154,11 @@ public class Enemigo implements Tocable {
 		if (miProta.getPosX() + JLabelProta.RADIO_ESFERA_PERSONAJE > this
 				.getPosX() - this.miGrafico.RADIO_ESFERA_Enemigo
 				&& miProta.getPosX() - JLabelProta.RADIO_ESFERA_PERSONAJE < this
-						.getPosX() + this.miGrafico.RADIO_ESFERA_Enemigo
+				.getPosX() + this.miGrafico.RADIO_ESFERA_Enemigo
 				&& miProta.getPosY() + JLabelProta.RADIO_ESFERA_PERSONAJE > this
-						.getPosY() - this.miGrafico.RADIO_ESFERA_Enemigo
+				.getPosY() - this.miGrafico.RADIO_ESFERA_Enemigo
 				&& miProta.getPosY() - JLabelProta.RADIO_ESFERA_PERSONAJE < this
-						.getPosY() + this.miGrafico.RADIO_ESFERA_Enemigo) {
+				.getPosY() + this.miGrafico.RADIO_ESFERA_Enemigo) {
 			return true;
 
 		}
@@ -176,11 +169,11 @@ public class Enemigo implements Tocable {
 		if (miEnemigo.getPosX() + JLabelEnemigo.RADIO_ESFERA_Enemigo > this
 				.getPosX() - this.miGrafico.RADIO_ESFERA_Enemigo
 				&& miEnemigo.getPosX() - JLabelEnemigo.RADIO_ESFERA_Enemigo < this
-						.getPosX() + this.miGrafico.RADIO_ESFERA_Enemigo
+				.getPosX() + this.miGrafico.RADIO_ESFERA_Enemigo
 				&& miEnemigo.getPosY() + JLabelEnemigo.RADIO_ESFERA_Enemigo > this
-						.getPosY() - this.miGrafico.RADIO_ESFERA_Enemigo
+				.getPosY() - this.miGrafico.RADIO_ESFERA_Enemigo
 				&& miEnemigo.getPosY() - JLabelEnemigo.RADIO_ESFERA_Enemigo < this
-						.getPosY() + this.miGrafico.RADIO_ESFERA_Enemigo) {
+				.getPosY() + this.miGrafico.RADIO_ESFERA_Enemigo) {
 			return true;
 
 		}
@@ -191,11 +184,11 @@ public class Enemigo implements Tocable {
 		if (miBarril.getPosX() + JLabelBarril.RADIO_ESFERA_BARRIL > this
 				.getPosX() - this.miGrafico.RADIO_ESFERA_Enemigo
 				&& miBarril.getPosX() - JLabelBarril.RADIO_ESFERA_BARRIL < this
-						.getPosX() + this.miGrafico.RADIO_ESFERA_Enemigo
+				.getPosX() + this.miGrafico.RADIO_ESFERA_Enemigo
 				&& miBarril.getPosY() + JLabelBarril.RADIO_ESFERA_BARRIL > this
-						.getPosY() - this.miGrafico.RADIO_ESFERA_Enemigo
+				.getPosY() - this.miGrafico.RADIO_ESFERA_Enemigo
 				&& miBarril.getPosY() - JLabelBarril.RADIO_ESFERA_BARRIL < this
-						.getPosY() + this.miGrafico.RADIO_ESFERA_Enemigo) {
+				.getPosY() + this.miGrafico.RADIO_ESFERA_Enemigo) {
 			return true;
 
 		}
@@ -472,7 +465,6 @@ public class Enemigo implements Tocable {
 		}
 		boolean p = true;
 		if (abajo) {
-			System.out.println("tocado1");
 			this.setPosicion(posX, posY- 20);
 			if (hayChoqueVerticalArriba(this)) {
 				this.setPosicion(posX, posY+ 20);
@@ -498,96 +490,93 @@ public class Enemigo implements Tocable {
 					}
 				}
 			}
-			
+
 		} else if (arriba) {
-					System.out.println("tocado2");
-					this.setPosicion(posX, posY+ 20);
-						miGrafico.setLocation((int) posX, (int) posY);
-						if (hayChoqueVerticalArriba(this)) {
-							this.setPosicion(posX, posY- 20);
-						} else {
-							for (Barril barril : a.barriles) {
-								if ((hayChoqueconBarril(barril))) {
-									this.setPosicion(posX, posY- 20);
-									p = false;
-									break;
-								}
-							}
-							if (p = true) {
-								for (Enemigo otroEnemigo : a.misEnemigos) {
-									if (hayChoqueconEnemigo(otroEnemigo)
-											&& (otroEnemigo != this)) {
-										otroEnemigo.tocado();
-										if (hayChoqueconEnemigo(otroEnemigo)
-												&& (otroEnemigo != this)) {
-											this.setPosicion(posX, posY- 20);
-											break;
-										}
-									}
-								}
-							}
-						
+			this.setPosicion(posX, posY+ 20);
+			miGrafico.setLocation((int) posX, (int) posY);
+			if (hayChoqueVerticalArriba(this)) {
+				this.setPosicion(posX, posY- 20);
+			} else {
+				for (Barril barril : a.barriles) {
+					if ((hayChoqueconBarril(barril))) {
+						this.setPosicion(posX, posY- 20);
+						p = false;
+						break;
 					}
-
-				} else if (derecha) {
-					System.out.println("tocado3");
-					this.setPosicion(posX- 20, posY);
-						if (hayChoqueHorizontalDerecha(this)) {
-							this.setPosicion(posX+ 20, posY);
-						} else {
-							for (Barril barril : a.barriles) {
-								if ((hayChoqueconBarril(barril))) {
-									this.setPosicion(posX+ 20, posY);
-									p = false;
-									break;
-								}
-							}
-							if (p = true) {
-								for (Enemigo otroEnemigo : a.misEnemigos) {
-									if (hayChoqueconEnemigo(otroEnemigo)
-											&& (otroEnemigo != this)) {
-										otroEnemigo.tocado();
-										if (hayChoqueconEnemigo(otroEnemigo)
-												&& (otroEnemigo != this)) {
-											this.setPosicion(posX+ 20, posY);
-											break;
-										}
-									}
-								}
-							
-						}
-					}
-
-				} else if (izquierda) {
-					System.out.println("tocado4");
-					this.setPosicion(posX+ 20, posY);
-						if (hayChoqueHorizontalIzquierda(this)) {
-							this.setPosicion(posX- 20, posY);
-						} else {
-							for (Barril barril : a.barriles) {
-								if ((hayChoqueconBarril(barril))) {
-									this.setPosicion(posX- 20, posY);
-									p = false;
-									break;
-								}
-							}
-							if (p = true) {
-								for (Enemigo otroEnemigo : a.misEnemigos) {
-									if (hayChoqueconEnemigo(otroEnemigo)
-											&& (otroEnemigo != this)) {
-										otroEnemigo.tocado();
-										if (hayChoqueconEnemigo(otroEnemigo)
-												&& (otroEnemigo != this)) {
-											this.setPosicion(posX- 20, posY);
-											break;
-										}
-									}
-								}
-							}
-						}
-					
 				}
-		
+				if (p = true) {
+					for (Enemigo otroEnemigo : a.misEnemigos) {
+						if (hayChoqueconEnemigo(otroEnemigo)
+								&& (otroEnemigo != this)) {
+							otroEnemigo.tocado();
+							if (hayChoqueconEnemigo(otroEnemigo)
+									&& (otroEnemigo != this)) {
+								this.setPosicion(posX, posY- 20);
+								break;
+							}
+						}
+					}
+				}
+
+			}
+
+		} else if (derecha) {
+			this.setPosicion(posX- 20, posY);
+			if (hayChoqueHorizontalDerecha(this)) {
+				this.setPosicion(posX+ 20, posY);
+			} else {
+				for (Barril barril : a.barriles) {
+					if ((hayChoqueconBarril(barril))) {
+						this.setPosicion(posX+ 20, posY);
+						p = false;
+						break;
+					}
+				}
+				if (p = true) {
+					for (Enemigo otroEnemigo : a.misEnemigos) {
+						if (hayChoqueconEnemigo(otroEnemigo)
+								&& (otroEnemigo != this)) {
+							otroEnemigo.tocado();
+							if (hayChoqueconEnemigo(otroEnemigo)
+									&& (otroEnemigo != this)) {
+								this.setPosicion(posX+ 20, posY);
+								break;
+							}
+						}
+					}
+
+				}
+			}
+
+		} else if (izquierda) {
+			this.setPosicion(posX+ 20, posY);
+			if (hayChoqueHorizontalIzquierda(this)) {
+				this.setPosicion(posX- 20, posY);
+			} else {
+				for (Barril barril : a.barriles) {
+					if ((hayChoqueconBarril(barril))) {
+						this.setPosicion(posX- 20, posY);
+						p = false;
+						break;
+					}
+				}
+				if (p = true) {
+					for (Enemigo otroEnemigo : a.misEnemigos) {
+						if (hayChoqueconEnemigo(otroEnemigo)
+								&& (otroEnemigo != this)) {
+							otroEnemigo.tocado();
+							if (hayChoqueconEnemigo(otroEnemigo)
+									&& (otroEnemigo != this)) {
+								this.setPosicion(posX- 20, posY);
+								break;
+							}
+						}
+					}
+				}
+			}
+
+		}
+
 		vida--;
 		if(vida==0){
 			Municion miMunicion = new Municion(a);
@@ -601,7 +590,7 @@ public class Enemigo implements Tocable {
 			int puntuacion =Integer.parseInt(a.puntuacion.getText())+100;
 			a.puntuacion.setText(Integer.toString(puntuacion));
 		}
-			
+
 	}
 
 }

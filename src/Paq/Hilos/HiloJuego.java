@@ -12,7 +12,7 @@ public class HiloJuego extends Thread {
 
 	// Constructor del hilo
 	public HiloJuego(Menu a) {
-	this.a =a;
+		this.a =a;
 	}
 
 	public void parar() {
@@ -21,17 +21,17 @@ public class HiloJuego extends Thread {
 
 	// Lo que va ejecutar cada vez que se lance el hilo
 	public void run() {
-			try {
-				Escenario.main(a);
-			
-				// Que espere un segundo antes de ejecutarse
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-			}
+		try {
+			Escenario.main(a);
 
-			// Lo que quiero que haga el hilo
-			
-		
+			// Que espere un segundo antes de ejecutarse
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+		}
+
+		// Lo que quiero que haga el hilo
+
+
 	}
 
 }

@@ -201,7 +201,7 @@ private JLabelBala miGrafico;
 			for (Enemigo otroEnemigo : a.misEnemigos) {
 				if ((this.hayChoqueconEnemigo(otroEnemigo))) {
 					otroEnemigo.tocado();
-					a.panelPrincipal.remove(this.getMiGrafico());
+					vida = 0;
 					break;
 				}
 			}
