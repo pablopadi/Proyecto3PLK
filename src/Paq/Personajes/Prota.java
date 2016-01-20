@@ -40,7 +40,7 @@ public class Prota extends JComponent implements Tocable {
 		a = p;
 		// miGraficoActual.setBounds( 0, 0, TAMANYO_PERSONAJE, TAMANYO_PERSONAJE
 		// );
-		vidas = 3;//numero de vidas por defecto
+		vidas = 5;//numero de vidas por defecto
 	}
 	/**
 	 * @return the vidas

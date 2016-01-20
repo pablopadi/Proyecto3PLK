@@ -19,7 +19,7 @@ public class Enemigo implements Tocable {
 	protected double posY; // Posición en Y (vertical)
 	Escenario a;// Escenario en el que juega
 	// Metodo de imagen
-	int vida = 2;
+	int vida = 3;
 	Random ran;
 	boolean arriba= false;
 	boolean abajo= false;
